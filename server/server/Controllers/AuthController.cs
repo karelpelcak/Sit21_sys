@@ -1,12 +1,8 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using server.Data;
 using server.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace server.Controllers
 {
@@ -31,14 +27,14 @@ namespace server.Controllers
             {
                 registerModel.Password = BCrypt.Net.BCrypt.HashPassword(registerModel.Password);
                 var newUser = new User(registerModel);
-                _dbContext.Users.AddAsync(newUser);
+                await _dbContext.Users.AddAsync(newUser);
                 _dbContext.SaveChanges();
                 //return Ok("registrace");
-                var UserToHash = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == newUser.Id);
-                HashID newHashID = new HashID();
-                newHashID.UserID = UserToHash.Id;
-                newHashID.HashedID = BCrypt.Net.BCrypt.HashPassword(UserToHash.Id.ToString());
-                _dbContext.HashIds.AddAsync(newHashID);
+                var userToHash = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == newUser.Id);
+                HashID newHashId = new HashID();
+                newHashId.UserID = userToHash.Id;
+                newHashId.HashedID = BCrypt.Net.BCrypt.HashPassword(userToHash.Id.ToString());
+                await _dbContext.HashIds.AddAsync(newHashId);
                 _dbContext.SaveChanges();
                 return Ok("User registred");
             }
