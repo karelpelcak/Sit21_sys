@@ -40,6 +40,9 @@ namespace server.Migrations
                     b.Property<DateTime>("EventEditedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EventEnd")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("EventFinished")
                         .HasColumnType("bit");
 
@@ -49,6 +52,9 @@ namespace server.Migrations
                     b.Property<string>("EventName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EventStart")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("EventID");
 

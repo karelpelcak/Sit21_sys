@@ -21,6 +21,8 @@ namespace server.Migrations
                     EventDesc = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EventCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventEditedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EventStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EventEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventFinished = table.Column<bool>(type: "bit", nullable: false),
                     EventForUserID = table.Column<int>(type: "int", nullable: false)
                 },

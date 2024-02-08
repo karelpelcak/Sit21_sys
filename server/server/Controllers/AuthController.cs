@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using server.Data;
 using server.Models;
@@ -17,7 +19,22 @@ namespace server.Controllers
         {
             _dbContext = dbContext;
         }
+        static string HashSHA256(string input)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(input);
+                byte[] hashBytes = sha256.ComputeHash(bytes);
 
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    builder.Append(hashBytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+        
         [HttpPost("/register")]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
@@ -28,11 +45,10 @@ namespace server.Controllers
                 var newUser = new User(registerModel);
                 await _dbContext.Users.AddAsync(newUser);
                 _dbContext.SaveChanges();
-                //return Ok("registrace");
                 var userToHash = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == newUser.Id);
                 HashID newHashId = new HashID();
                 newHashId.UserID = userToHash.Id;
-                newHashId.HashedID = BCrypt.Net.BCrypt.HashPassword(userToHash.Id.ToString());
+                newHashId.HashedID = HashSHA256(userToHash.Id.ToString());
                 await _dbContext.HashIds.AddAsync(newHashId);
                 _dbContext.SaveChanges();
                 return Ok("User registred");

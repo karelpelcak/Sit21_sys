@@ -12,7 +12,7 @@ using server.Data;
 namespace server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240207223104_Initial")]
+    [Migration("20240208091613_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -43,6 +43,9 @@ namespace server.Migrations
                     b.Property<DateTime>("EventEditedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EventEnd")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("EventFinished")
                         .HasColumnType("bit");
 
@@ -52,6 +55,9 @@ namespace server.Migrations
                     b.Property<string>("EventName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EventStart")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("EventID");
 
