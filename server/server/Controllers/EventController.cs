@@ -42,7 +42,7 @@ namespace server.Controllers
         [HttpDelete("/{eventid}/delete")]
         public async Task<IActionResult> DeleteEvent(int eventid)
         {
-            
+            return Ok();
         }
     }
 }
