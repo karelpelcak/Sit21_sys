@@ -18,8 +18,7 @@ namespace server.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpPost]
-        [Route("/register")]
+        [HttpPost("/register")]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
             var email = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == registerModel.Email);
@@ -45,8 +44,7 @@ namespace server.Controllers
                 
         }
 
-        [HttpPost]
-        [Route("/login")]
+        [HttpPost("/login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == loginModel.Username);
@@ -68,8 +66,7 @@ namespace server.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("/user/{username}")]
+        [HttpGet("/user/{username}")]
         public async Task<IActionResult> UserByName(string username)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
@@ -90,8 +87,7 @@ namespace server.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("/users")]
+        [HttpGet("/users")]
         public async Task<IActionResult> AllUsers()
         {
             var Users = await _dbContext.Users.ToListAsync();
@@ -105,8 +101,7 @@ namespace server.Controllers
             return Ok(userData);
         }
 
-        [HttpGet]
-        [Route("/hash/{hashid}")]
+        [HttpGet("/hash/{hashid}")]
         public async Task<IActionResult> GetLoggedUserObject(string hashid)
         {
             var userid = await _dbContext.HashIds.FirstOrDefaultAsync(h => h.HashedID == hashid);

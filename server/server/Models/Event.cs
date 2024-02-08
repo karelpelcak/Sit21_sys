@@ -10,22 +10,36 @@ public class Event
     public string EventDesc { get; set; }
     public DateTime EventCreatedAt { get; set; }
     public DateTime EventEditedAt { get; set; }
+    public DateTime EventStart { get; set; }
+    public DateTime EventEnd { get; set; }
     public bool EventFinished { get; set; }
     public int EventForUserID { get; set; }
     
     public Event(){}
     
-    public Event(EventCreateEvent eventCreateEvent)
+    public Event(EventCreateEventModel eventCreateEventModel)
     {
-        EventName = eventCreateEvent.EventName;
-        EventDesc = eventCreateEvent.EventDesc;
-        EventForUserID = eventCreateEvent.EventForUserID;
+        EventName = eventCreateEventModel.EventName;
+        EventDesc = eventCreateEventModel.EventDesc;
+        EventForUserID = eventCreateEventModel.EventForUserID;
         EventCreatedAt = DateTime.Now;
+        EventStart = eventCreateEventModel.EventStart;
+        EventEnd = eventCreateEventModel.EventEnd;
         EventFinished = false;
+    }
+
+    public Event(EventEditEventModel eventEditEventModel)
+    {
+        EventName = eventEditEventModel.EventName;
+        EventDesc = eventEditEventModel.EventDesc;
+        EventForUserID = eventEditEventModel.EventForUserID;
+        EventEditedAt = DateTime.Now;
+        EventStart = eventEditEventModel.EventStart;
+        EventEnd = eventEditEventModel.EventEnd;
     }
 }
 
-public class EventCreateEvent
+public class EventCreateEventModel
 {
     [Required]
     public string EventName { get; set; }
@@ -33,4 +47,22 @@ public class EventCreateEvent
     public string EventDesc { get; set; }
     [Required]
     public int EventForUserID { get; set; }
+    [Required]
+    public DateTime EventStart { get; set; }
+    [Required]
+    public DateTime EventEnd { get; set; }
+}
+
+public class EventEditEventModel
+{
+    [Required]
+    public string EventName { get; set; }
+    [Required]
+    public string EventDesc { get; set; }
+    [Required]
+    public int EventForUserID { get; set; }
+    [Required]
+    public DateTime EventStart { get; set; }
+    [Required]
+    public DateTime EventEnd { get; set; }
 }
