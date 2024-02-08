@@ -67,5 +67,72 @@ namespace server.Controllers
                 return BadRequest("wrong username");
             }
         }
+
+        [HttpGet]
+        [Route("/user/{username}")]
+        public async Task<IActionResult> UserByName(string username)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user != null)
+            {
+                var userData = new
+                {
+                    Firstname = user.Firstname,
+                    Lastname = user.Lastname,
+                    Username = user.Username,
+                    Email = user.Email
+                };
+                return Ok(userData);
+            }
+            else
+            {
+                return BadRequest("User not found");
+            }
+        }
+
+        [HttpGet]
+        [Route("/users")]
+        public async Task<IActionResult> AllUsers()
+        {
+            var Users = await _dbContext.Users.ToListAsync();
+            var userData = Users.Select(u => new
+            {
+                Firstname = u.Firstname,
+                Lastname = u.Lastname,
+                Username = u.Username,
+                Email = u.Email
+            }).ToList();
+            return Ok(userData);
+        }
+
+        [HttpGet]
+        [Route("/hash/{hashid}")]
+        public async Task<IActionResult> GetLoggedUserObject(string hashid)
+        {
+            var userid = await _dbContext.HashIds.FirstOrDefaultAsync(h => h.HashedID == hashid);
+            if (userid != null)
+            {
+                var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userid.UserID);
+                if (user != null)
+                {
+                    var userData = new
+                    {
+                        Firstname = user.Firstname,
+                        Lastname = user.Lastname,
+                        Username = user.Username,
+                        Email = user.Email
+                    };
+                    return Ok(userData);
+                }
+                else
+                {
+                    return NotFound("User not found");
+                }
+            }
+            else
+            {
+                return BadRequest("Wrong hash");
+            }
+        }
     }
 }
