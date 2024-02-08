@@ -19,7 +19,7 @@ namespace server.Controllers
         {
             _dbContext = dbContext;
         }
-        static string HashSHA256(string input)
+        static string HashSha256(string input)
         {
             using (SHA256 sha256 = SHA256.Create())
             {
@@ -47,8 +47,12 @@ namespace server.Controllers
                 _dbContext.SaveChanges();
                 var userToHash = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == newUser.Id);
                 HashID newHashId = new HashID();
-                newHashId.UserID = userToHash.Id;
-                newHashId.HashedID = HashSHA256(userToHash.Id.ToString());
+                if (userToHash != null)
+                {
+                    newHashId.UserID = userToHash.Id;
+                    newHashId.HashedID = HashSha256(userToHash.Id.ToString());
+                }
+
                 await _dbContext.HashIds.AddAsync(newHashId);
                 _dbContext.SaveChanges();
                 return Ok("User registred");
@@ -68,8 +72,9 @@ namespace server.Controllers
             {
                 if (BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
                 {
-                    var Hash = await _dbContext.HashIds.FirstOrDefaultAsync(h => h.UserID == user.Id);
-                    return Ok(Hash.HashedID);
+                    var hash = await _dbContext.HashIds.FirstOrDefaultAsync(h => h.UserID == user.Id);
+                    if (hash == null) throw new ArgumentNullException(nameof(hash));
+                    return Ok(hash.HashedID);
                 }
                 else
                 {
@@ -90,10 +95,10 @@ namespace server.Controllers
             {
                 var userData = new
                 {
-                    Firstname = user.Firstname,
-                    Lastname = user.Lastname,
-                    Username = user.Username,
-                    Email = user.Email
+                    user.Firstname,
+                    user.Lastname,
+                    user.Username,
+                    user.Email
                 };
                 return Ok(userData);
             }
@@ -106,13 +111,13 @@ namespace server.Controllers
         [HttpGet("/users")]
         public async Task<IActionResult> AllUsers()
         {
-            var Users = await _dbContext.Users.ToListAsync();
-            var userData = Users.Select(u => new
+            var users = await _dbContext.Users.ToListAsync();
+            var userData = users.Select(u => new
             {
-                Firstname = u.Firstname,
-                Lastname = u.Lastname,
-                Username = u.Username,
-                Email = u.Email
+                u.Firstname,
+                u.Lastname,
+                u.Username,
+                u.Email
             }).ToList();
             return Ok(userData);
         }
@@ -128,10 +133,10 @@ namespace server.Controllers
                 {
                     var userData = new
                     {
-                        Firstname = user.Firstname,
-                        Lastname = user.Lastname,
-                        Username = user.Username,
-                        Email = user.Email
+                        user.Firstname,
+                        user.Lastname,
+                        user.Username,
+                        user.Email
                     };
                     return Ok(userData);
                 }

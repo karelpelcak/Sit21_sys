@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 
 const LoginForm = () => {
+  var currentTime = new Date();
+  var expirationTime = new Date(currentTime.getTime() + 10 * 60 * 60 * 1000);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -34,9 +36,7 @@ const LoginForm = () => {
 
       if (response.ok) {
         const jwtToken = await response.text();
-        console.log("JWT Token:", jwtToken);
-
-        setCookie("Auth_Token", jwtToken, { path: "/" });
+        setCookie("Auth_Token", jwtToken, { expires:  expirationTime,  path: "/" });
 
       } else {
         console.error("Bad response from server");
