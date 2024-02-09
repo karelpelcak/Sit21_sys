@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/server.csproj": {}
+    "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/Server.csproj": {}
   },
   "projects": {
-    "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/server.csproj": {
+    "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/server.csproj",
+        "projectUniqueName": "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/Server.csproj",
         "projectName": "server",
-        "projectPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/server.csproj",
+        "projectPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/Server.csproj",
         "packagesPath": "/Users/karelpelcak/.nuget/packages/",
         "outputPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/obj/",
         "projectStyle": "PackageReference",
