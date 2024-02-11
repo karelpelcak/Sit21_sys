@@ -6,6 +6,6 @@ import Checker from './Checker'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Checker />
+    <Checker/>
   </React.StrictMode>
 )
