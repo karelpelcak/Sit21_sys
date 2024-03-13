@@ -21,11 +21,34 @@ namespace server.Controllers
         }
 
         [HttpPost("/createevent")]
-        public async Task<IActionResult> CreateEvent(EventCreateEventModel createEventModel)
+        public async Task<IActionResult> CreateEvent(EventCreateEventModel createEventModel, [FromQuery] int[] ids)
         {
-            
-            return Ok("created");
+            if (ids == null || ids.Length == 0)
+            {
+                return BadRequest("Ids array is empty.");
+            }
+
+            try
+            {
+                foreach (int id in ids)
+                {
+                    var newEvent = new Event(createEventModel)
+                    {
+                        EventForUserID = id
+                    };
+                    _dbContext.Events.Add(newEvent); 
+                }
+
+                await _dbContext.SaveChangesAsync(); 
+
+                return Ok("Events created successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to create events: {ex.Message}");
+            }
         }
+
 
         [HttpPut("/editevent")]
         public async Task<IActionResult> EditEvent(EventEditEventModel eventEditEventModel)

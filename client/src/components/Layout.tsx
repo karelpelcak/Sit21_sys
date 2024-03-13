@@ -28,18 +28,13 @@ const Layout = () => {
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="/calendar">
-              Kalendář
+            <a className="nav-link" href="/tasks">
+              Úkoly
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              Polozka1
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Polozka1
+            <a className="nav-link" href="/users">
+              uživatele
             </a>
           </li>
         </ul>
