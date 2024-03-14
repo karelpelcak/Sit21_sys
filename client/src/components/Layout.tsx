@@ -37,6 +37,11 @@ const Layout = () => {
               uživatele
             </a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/createevent">
+              Nový úkol
+            </a>
+          </li>
         </ul>
       </div>
       {data && (

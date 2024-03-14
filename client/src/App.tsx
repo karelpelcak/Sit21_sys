@@ -5,6 +5,7 @@ import Error from "./Routes/Error";
 import UserPage from "./Routes/UserPage";
 import Tasks from "./Routes/Tasks";
 import AllUsers from "./Routes/AllUsers";
+import CreateEvent from "./Routes/CreateEvent";
 
 const App = () => (
   <>
@@ -19,6 +20,7 @@ const App = () => (
               <Route path="/users" element={<AllUsers />} />
               <Route path="*" element={<Error />} />
               <Route path="/user/:username" element={<UserPage />} />
+              <Route path="/createevent" element={<CreateEvent />} />
             </Routes>
           </div>
         </div>
