@@ -121,6 +121,18 @@ namespace server.Controllers
             }).ToList();
             return Ok(userData);
         }
+        [HttpGet("/usersids")]
+        public async Task<IActionResult> AllUsersWithIds()
+        {
+            var users = await _dbContext.Users.ToListAsync();
+            var userData = users.Select(u => new
+            {
+                u.Firstname,
+                u.Lastname,
+                u.Id
+            }).ToList();
+            return Ok(userData);
+        }
 
         [HttpGet("/hash/{hashid}")]
         public async Task<IActionResult> GetLoggedUserObject(string hashid)

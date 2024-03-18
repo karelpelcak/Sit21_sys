@@ -5,9 +5,6 @@ const LoginForm = () => {
   var currentTime = new Date();
   var expirationTime = new Date(currentTime.getTime() + 10 * 60 * 60 * 1000);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
     username: "",
     password: "",
   });

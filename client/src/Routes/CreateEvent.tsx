@@ -1,24 +1,84 @@
-import { useState } from 'react';
-import Select from 'react-select';
+import { useEffect, useState } from "react";
+import Select from "react-select";
+
+interface User {
+  firstname: string;
+  lastname: string;
+  id: number;
+}
+
+interface SelectedOption {
+  value: string;
+  label: string;
+}
 
 const CreateEvent = () => {
-    const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<SelectedOption[]>([]);
+  const [userList, setUserList] = useState<SelectedOption[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [formData, setFormData] = useState({
+    eventName: "",
+    eventDesc: "",
+    eventStart: "",
+    eventEnd: "",
+  });
 
-    const users = [
-      { label: 'User 1', value: 1 },
-      { label: 'User 2', value: 2 },
-      { label: 'User 3', value: 3 },
-    ];
+  useEffect(() => {
+    handleUserSelect
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/usersids");
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const jsonData = await response.json();
+        setUsers(jsonData);
+        setUserList(
+          jsonData.map((user: User) => ({
+            value: user.id.toString(),
+            label: `${user.firstname} ${user.lastname}`,
+          }))
+        );
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
   
-    const handleUserSelect = (selectedOption: any) => {
-        setSelectedUsers([selectedOption]);
-    };
+  const handleUserSelect = (
+    newValue: SelectedOption | SelectedOption[],
+  ) => {
+    setSelectedUsers(Array.isArray(newValue) ? newValue : [newValue]);
+  };
+  
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(selectedUsers); 
-    };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
+    const selectedUserIds = selectedUsers.map((user) => parseInt(user.value));
+
+    try {
+      const response = await fetch("http://localhost:5001/createevent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          selectedUserIds: selectedUserIds,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Event created successfully");
+      } else {
+        console.error("Bad response from server");
+      }
+    } catch (error) {
+      console.error("Network error", error);
+    }
+  };
 
   return (
     <div className="container mt-5">
@@ -28,36 +88,69 @@ const CreateEvent = () => {
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="eventName">Event Name</label>
-              <input type="text" className="form-control" id="eventName" placeholder="Enter event name" />
+              <input
+                type="text"
+                className="form-control"
+                id="eventName"
+                placeholder="Enter event name"
+                onChange={(e) =>
+                  setFormData({ ...formData, eventName: e.target.value })
+                }
+              />
             </div>
             <div className="form-group">
               <label htmlFor="eventDesc">Event Description</label>
-              <input type="text" className="form-control" id="eventDesc" placeholder="Enter event description" />
+              <input
+                type="text"
+                className="form-control"
+                id="eventDesc"
+                placeholder="Enter event description"
+                onChange={(e) =>
+                  setFormData({ ...formData, eventDesc: e.target.value })
+                }
+              />
             </div>
             <div className="form-group">
-            <label htmlFor="userSearch">Search and Add Users</label>
-            <Select
-              id="userSearch"
-              options={users}
-              onChange={handleUserSelect}
-              isMulti
-              placeholder="Search users..."
-            />
-          </div>
+              <label htmlFor="userSearch">Search and Add Users</label>
+              <Select
+                id="userSearch"
+                options={userList}
+                isMulti
+                placeholder="Search users..."
+              />
+            </div>
             <div className="form-group">
               <label htmlFor="eventStart">Event Start</label>
-              <input type="datetime-local" className="form-control" id="eventStart" />
+              <input
+                type="datetime-local"
+                className="form-control"
+                id="eventStart"
+                onChange={(e) =>
+                  setFormData({ ...formData, eventStart: e.target.value })
+                }
+              />
             </div>
             <div className="form-group">
               <label htmlFor="eventEnd">Event End</label>
-              <input type="datetime-local" className="form-control" id="eventEnd" />
+              <input
+                type="datetime-local"
+                className="form-control"
+                id="eventEnd"
+                onChange={(e) =>
+                  setFormData({ ...formData, eventEnd: e.target.value })
+                }
+              />
             </div>
-            <button type="submit" className="btn btn-primary my-2">Submit</button>
+            <input
+              type="submit"
+              value="Create"
+              className="btn btn-primary my-2"
+            />
           </form>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default CreateEvent;
