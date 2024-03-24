@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import Spinner from "./components/Spinner";
 import App from "./App";
 import Authentication from "./Authentication";
+import { Spinner } from "react-bootstrap";
 
 interface UserData {
   firstname: string;
