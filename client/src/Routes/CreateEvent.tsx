@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
-
+//FINISHCODE: Finish event creating
+//FINISHCODE: restyle and rename components
 interface User {
   firstname: string;
   lastname: string;

@@ -1,5 +1,5 @@
 import Task from "../components/Task"
-
+//FINISHCODE: make the params
 const Tasks = () => {
   return (
     <div>

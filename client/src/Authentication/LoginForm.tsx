@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Spinner } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 
 const LoginForm = () => {
@@ -8,8 +9,10 @@ const LoginForm = () => {
     username: "",
     password: "",
   });
-
   const [, setCookie] = useCookies(["Auth_Token"]);
+  const [responseMessage, setResponseMessage] = useState("");
+  const [responsseState, setResponsseState] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -19,7 +22,8 @@ const LoginForm = () => {
     }));
   };
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
+    setLoading(true);
     e.preventDefault();
 
     try {
@@ -32,17 +36,27 @@ const LoginForm = () => {
       });
 
       if (response.ok) {
-        const jwtToken = await response.text();
-        setCookie("Auth_Token", jwtToken, { expires:  expirationTime,  path: "/" });
-
+        setResponseMessage("Úspěšně přihlášen");
+        setResponsseState(true);
+        setTimeout(async () => {
+          const authToken = await response.text();
+          setCookie("Auth_Token", authToken, {
+            expires: expirationTime,
+            path: "/",
+          });
+          setLoading(false);
+        }, 500);
       } else {
         console.error("Bad response from server");
+        setResponseMessage("Špatný uživatelské jméno nebo heslo");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Network error", error);
+      setResponseMessage("Network error");
+      setLoading(false);
     }
   };
-
 
   return (
     <div className="d-flex justify-content-center mt-5">
@@ -71,12 +85,23 @@ const LoginForm = () => {
             />
           </div>
           <div className="mt-3">
-            <input
-              type="submit"
-              value="Přihlásit se"
-              className="form-control bg-info"
-            />
+            {loading ? (
+              <div className="d-flex justify-content-center">
+                <Spinner />
+              </div>
+            ) : (
+              <input
+                type="submit"
+                value="Přihlásit se"
+                className="form-control bg-info"
+              />
+            )}
           </div>
+          {responsseState ? (
+            <span className="text-success">{responseMessage}</span>
+          ) : (
+            <span className="text-danger">{responseMessage}</span>
+          )}
         </div>
       </form>
     </div>

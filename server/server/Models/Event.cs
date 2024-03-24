@@ -10,8 +10,8 @@ public class Event
     public string EventDesc { get; set; }
     public DateTime EventCreatedAt { get; set; }
     public DateTime EventEditedAt { get; set; }
-    public DateTime EventStart { get; set; }
-    public DateTime EventEnd { get; set; }
+    public DateTime EventStart { get; set;}
+    public DateTime EventEnd { get; set;}
     public bool EventFinished { get; set; }
     public int EventForUserID { get; set; }
     
@@ -42,27 +42,27 @@ public class Event
 public class EventCreateEventModel
 {
     [Required]
-    public string EventName { get; set; }
+    public string EventName { get; }
     [Required]
-    public string EventDesc { get; set; }
+    public string EventDesc { get; }
     [Required]
-    public int EventForUserID { get; set; }
+    public int EventForUserID { get; }
     [Required]
-    public DateTime EventStart { get; set; }
+    public DateTime EventStart { get; }
     [Required]
-    public DateTime EventEnd { get; set; }
+    public DateTime EventEnd { get; }
 }
 
 public class EventEditEventModel
 {
     [Required]
-    public string EventName { get; set; }
+    public string EventName { get; }
     [Required]
-    public string EventDesc { get; set; }
+    public string EventDesc { get;  }
     [Required]
-    public int EventForUserID { get; set; }
+    public int EventForUserID { get; }
     [Required]
-    public DateTime EventStart { get; set; }
+    public DateTime EventStart { get;  }
     [Required]
-    public DateTime EventEnd { get; set; }
+    public DateTime EventEnd { get;  }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
 
@@ -50,12 +51,24 @@ namespace server.Controllers
 
 
         [HttpPut("/editevent")]
-        public async Task<IActionResult> EditEvent(EventEditEventModel eventEditEventModel)
+        public async Task<IActionResult> EditEvent(EventEditEventModel eventEditEventModel, int idOfEvent)
         {
-            var x = await _dbContext.SaveChangesAsync();
-            
-            return Ok(x);
+            var eventsToEdit = await _dbContext.Events.Where(e => e.EventID == idOfEvent).ToListAsync();
+
+            foreach (var eventToEdit in eventsToEdit)
+            {
+                eventToEdit.EventName = eventEditEventModel.EventName;
+                eventToEdit.EventDesc = eventEditEventModel.EventDesc;
+                eventToEdit.EventStart = eventEditEventModel.EventStart; // Corrected assignment
+                eventToEdit.EventEnd = eventEditEventModel.EventEnd;
+                eventToEdit.EventForUserID = eventEditEventModel.EventForUserID;
+            }
+    
+            await _dbContext.SaveChangesAsync(); // Save changes to the database
+    
+            return Ok();
         }
+
 
         [HttpPut("/{eventid}/finish")]
         public async Task<IActionResult> SetFinishedEvent(int eventid)
@@ -71,6 +84,23 @@ namespace server.Controllers
             var x = await _dbContext.SaveChangesAsync();
             
             return Ok(x);
+        }
+
+        [HttpGet("/events")]
+        public async Task<IActionResult> EventList()
+        {
+            var events = await _dbContext.Events.ToListAsync();
+            var eventsData = events.Select(e => new
+            {
+                e.EventID,
+                e.EventName,
+                e.EventDesc,
+                e.EventForUserID,
+                e.EventStart,
+                e.EventEnd
+            }).ToList();
+
+            return Ok(eventsData);
         }
     }
 }

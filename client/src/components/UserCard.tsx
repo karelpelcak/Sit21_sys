@@ -1,11 +1,9 @@
-import { FC } from "react";
-
 interface userProps{
     username: string
     userHref: string
 }
 
-const UserCard: FC<userProps> = ({username, userHref}) => {
+const UserCard: React.FC<userProps> = ({username, userHref}) => {
   return (
       <div className="row justify-content-center">
         <div className="col-md-6">

@@ -1,3 +1,5 @@
+//TODO: Find better spinner style
+
 const Spinner = () => {
   return (
     <div

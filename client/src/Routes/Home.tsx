@@ -1,6 +1,7 @@
 //import { useData } from "../Checker";
 import Task from "../components/Task";
-
+//FINISHCODE: do data fetching
+//FINISHCODE: restyle
 export const Home = () => {
   //const { data } = useData();
 

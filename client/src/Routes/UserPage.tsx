@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useData } from '../Checker';
-
+ //FIXCODE: Do desing and connection to backend
 const LoggedUser = () => {
     const { data } = useData();
     return (
