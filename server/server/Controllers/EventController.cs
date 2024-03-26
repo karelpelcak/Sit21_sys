@@ -59,12 +59,12 @@ namespace server.Controllers
             {
                 eventToEdit.EventName = eventEditEventModel.EventName;
                 eventToEdit.EventDesc = eventEditEventModel.EventDesc;
-                eventToEdit.EventStart = eventEditEventModel.EventStart; // Corrected assignment
+                eventToEdit.EventStart = eventEditEventModel.EventStart;
                 eventToEdit.EventEnd = eventEditEventModel.EventEnd;
                 eventToEdit.EventForUserID = eventEditEventModel.EventForUserID;
             }
     
-            await _dbContext.SaveChangesAsync(); // Save changes to the database
+            await _dbContext.SaveChangesAsync(); 
     
             return Ok();
         }

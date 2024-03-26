@@ -1,5 +1,8 @@
 import Task from "../components/Task"
-//FINISHCODE: make the params
+//FINISHCODE: add filter by day
+//FINISHCODE: add showing per page (20)
+//FINISHCODE: add fetching events
+
 const Tasks = () => {
   return (
     <div>
