@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
-//FINISHCODE: Finish event creating
-//FINISHCODE: restyle and rename components
+
 interface User {
   firstname: string;
   lastname: string;
@@ -16,7 +15,6 @@ interface SelectedOption {
 const CreateEvent = () => {
   const [selectedUsers, setSelectedUsers] = useState<SelectedOption[]>([]);
   const [userList, setUserList] = useState<SelectedOption[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
   const [formData, setFormData] = useState({
     eventName: "",
     eventDesc: "",
@@ -25,7 +23,6 @@ const CreateEvent = () => {
   });
 
   useEffect(() => {
-    handleUserSelect
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:5001/usersids");
@@ -33,7 +30,6 @@ const CreateEvent = () => {
           throw new Error("Failed to fetch data");
         }
         const jsonData = await response.json();
-        setUsers(jsonData);
         setUserList(
           jsonData.map((user: User) => ({
             value: user.id.toString(),
@@ -46,13 +42,10 @@ const CreateEvent = () => {
     };
     fetchData();
   }, []);
-  
-  const handleUserSelect = (
-    newValue: SelectedOption | SelectedOption[],
-  ) => {
-    setSelectedUsers(Array.isArray(newValue) ? newValue : [newValue]);
+
+  const handleUserSelect = (selectedOptions: SelectedOption[]) => {
+    setSelectedUsers(selectedOptions);
   };
-  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -118,6 +111,7 @@ const CreateEvent = () => {
                 options={userList}
                 isMulti
                 placeholder="Search users..."
+                onChange={(selectedOptions: SelectedOption) => handleUserSelect(selectedOptions)}
               />
             </div>
             <div className="form-group">
