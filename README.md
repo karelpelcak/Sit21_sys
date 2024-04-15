@@ -10,19 +10,10 @@ This project is a Planning System developed using React with TypeScript for the 
 - **Data Management**: Efficiently manage planning data, including creation, retrieval, updating, and deletion.
 - **Customizable**: Easily extend and customize the system to fit specific business needs.
 
-## Installation
-
-1. Clone the repository: `git clone https://github.com/yourusername/planning-system.git`
-2. Navigate to the frontend directory: `cd planning-system/frontend`
-3. Install frontend dependencies: `npm install`
-4. Navigate to the backend directory: `cd ../backend`
-5. Install backend dependencies: `dotnet restore`
-
 ## Usage
 
 1. Start the backend server: `dotnet run`
 2. Start the frontend development server: `npm start`
-3. Access the application in your browser at `http://localhost:3000`
 
 ## Contributing
 
