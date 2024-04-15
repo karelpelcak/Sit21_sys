@@ -19,31 +19,43 @@ namespace server.Controllers
         [HttpPost("/createevent")]
         public async Task<IActionResult> CreateEvent(EventCreateEventModel createEventModel, [FromQuery] int[] ids)
         {
-            if (ids.Length == 0)
+            if (createEventModel.EventEnd <= createEventModel.EventStart)
             {
-                return BadRequest("Ids array is empty.");
+                return BadRequest("End time must be greater than start time.");
+            }
+
+            var checkEvent = await _dbContext.Events.FirstOrDefaultAsync(e =>
+                e.EventName == createEventModel.EventName && e.EventDesc == createEventModel.EventDesc &&
+                e.EventStart == createEventModel.EventStart && e.EventEnd == createEventModel.EventEnd);
+    
+            if (checkEvent != null)
+            {
+                return BadRequest("Event already exists.");
+            }
+
+            var newEvent = new Event(createEventModel);
+            _dbContext.Events.Add(newEvent);
+            await _dbContext.SaveChangesAsync();
+
+
+            var eventToFind = await _dbContext.Events.FirstOrDefaultAsync(e => e == newEvent);
+            if (eventToFind != null)
+            {
+                var eventUsers = ids.Select(id => new EventUser(id, eventToFind.EventID));
+                _dbContext.EventUsers.AddRange(eventUsers);
+                try
+                {
+                    await _dbContext.SaveChangesAsync();
+                    return Ok("event and user mange created ok");
+                }
+                catch (Exception err)
+                {
+                    return BadRequest(err);
+                }
             }
             else
             {
-                try
-                {
-                    foreach (int id in ids)
-                    {
-                        var newEvent = new Event(createEventModel)
-                        {
-                            EventForUserID = id
-                        };
-                        _dbContext.Events.Add(newEvent); 
-                    }
-
-                    await _dbContext.SaveChangesAsync(); 
-
-                    return Ok("Events created successfully");
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest($"Failed to create events: {ex.Message}");
-                }
+                return BadRequest("event not created");
             }
 
             
@@ -61,7 +73,6 @@ namespace server.Controllers
                 eventToEdit.EventDesc = eventEditEventModel.EventDesc;
                 eventToEdit.EventStart = eventEditEventModel.EventStart;
                 eventToEdit.EventEnd = eventEditEventModel.EventEnd;
-                eventToEdit.EventForUserID = eventEditEventModel.EventForUserID;
             }
     
             await _dbContext.SaveChangesAsync(); 
@@ -73,9 +84,15 @@ namespace server.Controllers
         [HttpPut("/{eventid}/finish")]
         public async Task<IActionResult> SetFinishedEvent(int eventid)
         {
-            var x = await _dbContext.SaveChangesAsync();
-            
-            return Ok(x);
+            var eventToFinish = await _dbContext.Events.FirstOrDefaultAsync(e => e.EventID == eventid);
+            if (eventToFinish != null)
+            {
+                return Ok(eventToFinish);
+            }
+            else
+            {
+                return StatusCode(404);
+            }
         }
 
         [HttpDelete("/{eventid}/delete")]
@@ -95,7 +112,6 @@ namespace server.Controllers
                 e.EventID,
                 e.EventName,
                 e.EventDesc,
-                e.EventForUserID,
                 e.EventStart,
                 e.EventEnd
             }).ToList();

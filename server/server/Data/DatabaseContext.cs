@@ -13,4 +13,5 @@ public class DatabaseContext: DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<HashID> HashIds { get; set; }
     public DbSet<Event> Events { get; set; }
+    public DbSet<EventUser> EventUsers { get; set; }
 }

@@ -45,12 +45,12 @@ namespace server.Controllers
                 var newUser = new User(registerModel);
                 await _dbContext.Users.AddAsync(newUser);
                 _dbContext.SaveChanges();
-                var userToHash = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == newUser.Id);
+                var userToHash = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == newUser.UserId);
                 HashID newHashId = new HashID();
                 if (userToHash != null)
                 {
-                    newHashId.UserID = userToHash.Id;
-                    newHashId.HashedID = HashSha256(userToHash.Id.ToString());
+                    newHashId.UserID = userToHash.UserId;
+                    newHashId.HashedID = HashSha256(userToHash.UserId.ToString());
                 }
 
                 await _dbContext.HashIds.AddAsync(newHashId);
@@ -72,7 +72,7 @@ namespace server.Controllers
             {
                 if (BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
                 {
-                    var hash = await _dbContext.HashIds.FirstOrDefaultAsync(h => h.UserID == user.Id);
+                    var hash = await _dbContext.HashIds.FirstOrDefaultAsync(h => h.UserID == user.UserId);
                     if (hash == null) throw new ArgumentNullException(nameof(hash));
                     return Ok(hash.HashedID);
                 }
@@ -129,7 +129,7 @@ namespace server.Controllers
             {
                 u.Firstname,
                 u.Lastname,
-                u.Id
+                u.UserId
             }).ToList();
             return Ok(userData);
         }
@@ -140,7 +140,7 @@ namespace server.Controllers
             var userid = await _dbContext.HashIds.FirstOrDefaultAsync(h => h.HashedID == hashid);
             if (userid != null)
             {
-                var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userid.UserID);
+                var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == userid.UserID);
                 if (user != null)
                 {
                     var userData = new

@@ -23,8 +23,7 @@ namespace server.Migrations
                     EventEditedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EventFinished = table.Column<bool>(type: "bit", nullable: false),
-                    EventForUserID = table.Column<int>(type: "int", nullable: false)
+                    EventFinished = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,7 +48,7 @@ namespace server.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Firstname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Lastname = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -59,18 +58,57 @@ namespace server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "EventUsers",
+                columns: table => new
+                {
+                    EventUserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventUsers", x => x.EventUserId);
+                    table.ForeignKey(
+                        name: "FK_EventUsers_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "EventID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventUsers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventUsers_EventId",
+                table: "EventUsers",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventUsers_UserId",
+                table: "EventUsers",
+                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "EventUsers");
 
             migrationBuilder.DropTable(
                 name: "HashIds");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Users");

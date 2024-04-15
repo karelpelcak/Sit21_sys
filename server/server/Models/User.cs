@@ -7,7 +7,7 @@ namespace server.Models;
 public class User
 {
     [Key]
-    public int Id { get; set; }
+    public int UserId { get; set; }
     public string Firstname { get; set; }
     public string Lastname { get; set; }
     public string Username { get; set; }
@@ -51,6 +51,7 @@ public class User
 
         return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
     }
+    public ICollection<EventUser> EventUsers { get; set; }
 }
 
 public class LoginModel

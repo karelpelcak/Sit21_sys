@@ -13,7 +13,6 @@ public class Event
     public DateTime EventStart { get; set;}
     public DateTime EventEnd { get; set;}
     public bool EventFinished { get; set; }
-    public int EventForUserID { get; set; }
     
     public Event(){}
     
@@ -21,7 +20,6 @@ public class Event
     {
         EventName = eventCreateEventModel.EventName;
         EventDesc = eventCreateEventModel.EventDesc;
-        EventForUserID = eventCreateEventModel.EventForUserID;
         EventCreatedAt = DateTime.Now;
         EventStart = eventCreateEventModel.EventStart;
         EventEnd = eventCreateEventModel.EventEnd;
@@ -32,37 +30,33 @@ public class Event
     {
         EventName = eventEditEventModel.EventName;
         EventDesc = eventEditEventModel.EventDesc;
-        EventForUserID = eventEditEventModel.EventForUserID;
         EventEditedAt = DateTime.Now;
         EventStart = eventEditEventModel.EventStart;
         EventEnd = eventEditEventModel.EventEnd;
     }
+    public ICollection<EventUser> EventUsers { get; set; }
 }
 
 public class EventCreateEventModel
 {
     [Required]
-    public string EventName { get; }
+    public string EventName { get; set; }
     [Required]
-    public string EventDesc { get; }
+    public string EventDesc { get; set;}
     [Required]
-    public int EventForUserID { get; }
+    public DateTime EventStart { get; set;}
     [Required]
-    public DateTime EventStart { get; }
-    [Required]
-    public DateTime EventEnd { get; }
+    public DateTime EventEnd { get; set;}
 }
 
 public class EventEditEventModel
 {
     [Required]
-    public string EventName { get; }
+    public string EventName { get; set;}
     [Required]
-    public string EventDesc { get;  }
+    public string EventDesc { get;  set;}
     [Required]
-    public int EventForUserID { get; }
+    public DateTime EventStart { get;  set;}
     [Required]
-    public DateTime EventStart { get;  }
-    [Required]
-    public DateTime EventEnd { get;  }
+    public DateTime EventEnd { get;  set;}
 }

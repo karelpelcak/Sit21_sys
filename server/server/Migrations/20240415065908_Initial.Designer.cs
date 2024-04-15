@@ -12,7 +12,7 @@ using server.Data;
 namespace server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240208091613_Initial")]
+    [Migration("20240415065908_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -49,9 +49,6 @@ namespace server.Migrations
                     b.Property<bool>("EventFinished")
                         .HasColumnType("bit");
 
-                    b.Property<int>("EventForUserID")
-                        .HasColumnType("int");
-
                     b.Property<string>("EventName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -62,6 +59,29 @@ namespace server.Migrations
                     b.HasKey("EventID");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("server.Models.EventUser", b =>
+                {
+                    b.Property<int>("EventUserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventUserId"));
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EventUserId");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EventUsers");
                 });
 
             modelBuilder.Entity("server.Models.HashID", b =>
@@ -86,11 +106,11 @@ namespace server.Migrations
 
             modelBuilder.Entity("server.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -112,9 +132,38 @@ namespace server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("server.Models.EventUser", b =>
+                {
+                    b.HasOne("server.Models.Event", "Event")
+                        .WithMany("EventUsers")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.User", "User")
+                        .WithMany("EventUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("server.Models.Event", b =>
+                {
+                    b.Navigation("EventUsers");
+                });
+
+            modelBuilder.Entity("server.Models.User", b =>
+                {
+                    b.Navigation("EventUsers");
                 });
 #pragma warning restore 612, 618
         }

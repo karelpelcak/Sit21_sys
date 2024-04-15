@@ -167,7 +167,7 @@ const RegisterForm = ({ setLogin }: RegisterFormProps) => {
             ) : (
               <input
                 type="submit"
-                value="Přihlásit se"
+                value="Registrovat se"
                 className="form-control bg-info"
                 disabled={!passwordsMatch || !passwordIsValid} 
               />

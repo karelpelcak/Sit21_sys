@@ -1,9 +1,11 @@
 //import { useData } from "../Checker";
+//const { data } = useData();
+
+
 import Task from "../components/Task";
 //FINISHCODE: do data fetching
 //FINISHCODE: restyle
 export const Home = () => {
-  //const { data } = useData();
 
   const TodayTaskCount = 7;
   return (

@@ -50,7 +50,11 @@ const Checker = () => {
   }, [cookies.Auth_Token]);
 
   if (loading) {
-    return <Spinner />;
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <Spinner/>
+      </div>
+    );
   }
 
   return (
