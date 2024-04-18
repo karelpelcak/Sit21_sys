@@ -216,6 +216,48 @@ namespace server.Controllers
                 return BadRequest("Wrong hash");
             }
         }
+        
+        [HttpGet("/events/{hashid}")]
+        public async Task<IActionResult> EventByUserId(string hashid)
+        {
+            try
+            {
+                List<Event> eventList = new List<Event>();
+        
+                var userId = await _dbContext.HashIds
+                    .Where(h => h.HashedID == hashid)
+                    .Select(h => h.UserID)
+                    .FirstOrDefaultAsync();
+        
+                if (userId != 0)
+                {
+                    var eventIds = await _dbContext.EventUsers
+                        .Where(eu => eu.UserId == userId)
+                        .Select(eu => eu.EventId)
+                        .ToListAsync();
+            
+                    foreach (var eventId in eventIds)
+                    {
+                        var @event = await _dbContext.Events.FindAsync(eventId);
+                        if (@event != null)
+                        {
+                            eventList.Add(@event);
+                        }
+                    }
+
+                    return Ok(eventList);
+                }
+                else
+                {
+                    return BadRequest("Neplatné hash ID");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Chyba při získávání událostí uživatele: {ex.Message}");
+            }
+        }
+
     }
 }
 

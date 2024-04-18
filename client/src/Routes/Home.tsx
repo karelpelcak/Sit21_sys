@@ -75,6 +75,7 @@ export const Home = () => {
           eventStart={task.eventStart}
           eventEnd={task.eventEnd}
           eventID={task.eventID.toString()}
+          eventfinished={false}
         />
       ))}
       <div className="container">

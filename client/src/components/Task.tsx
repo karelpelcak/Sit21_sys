@@ -7,6 +7,7 @@ interface TaskProps {
   eventStart: string;
   eventEnd: string;
   eventID: string;
+  eventfinished: boolean;
 }
 
 const Task: React.FC<TaskProps> = ({
@@ -14,16 +15,18 @@ const Task: React.FC<TaskProps> = ({
   eventDesc,
   eventEnd,
   eventID,
-  eventStart
+  eventStart,
+  eventfinished,
 }) => {
   const trimmedEventDesc =
     eventDesc.length > 600 ? eventDesc.substring(0, 600) + "..." : eventDesc;
 
   const handleDelete = async () => {
-    const confirmed = window.confirm("Jste si jisti, že chcete tento úkol smazat?");
+    const confirmed = window.confirm(
+      "Jste si jisti, že chcete tento úkol smazat?"
+    );
     if (!confirmed) return;
 
-     
     try {
       const response = await fetch(`http://localhost:5001/${eventID}/delete`, {
         method: "DELETE",
@@ -39,9 +42,11 @@ const Task: React.FC<TaskProps> = ({
   };
 
   const handleFinish = async () => {
-    const confirmed = window.confirm("Jste si jisti, že chcete označit tento úkol jako dokončený?");
+    const confirmed = window.confirm(
+      "Jste si jisti, že chcete označit tento úkol jako dokončený?"
+    );
     if (!confirmed) return;
-    
+
     try {
       const response = await fetch(`http://localhost:5001/${eventID}/finish`, {
         method: "PUT",
@@ -55,7 +60,6 @@ const Task: React.FC<TaskProps> = ({
       console.error("Error marking task as finished:", error);
     }
   };
-  
 
   return (
     <>
@@ -65,15 +69,21 @@ const Task: React.FC<TaskProps> = ({
           <Card.Text style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
             {trimmedEventDesc}
           </Card.Text>
-          <Card.Text>{eventEnd} - {eventStart}</Card.Text>
-          <div className="d-flex justify-content-between">
-            <Button variant="danger" onClick={handleDelete}>
-              Delete
-            </Button>
-            <Button variant="success" onClick={handleFinish}>
-              Finish
-            </Button>
-          </div>
+          <Card.Text>
+            {eventStart} - {eventEnd}
+          </Card.Text>
+          {eventfinished ? (
+            <div></div>
+          ) : (
+            <div className="d-flex justify-content-between">
+              <Button variant="danger" onClick={handleDelete}>
+                Delete
+              </Button>
+              <Button variant="success" onClick={handleFinish}>
+                Finish
+              </Button>
+            </div>
+          )}
         </Card.Body>
       </Card>
     </>

@@ -176,6 +176,7 @@ const TodayTask = () => {
             eventStart={task.eventStart}
             eventEnd={task.eventEnd}
             eventID={task.eventID.toString()}
+            eventfinished={false}
           />
         ))}
       </>
