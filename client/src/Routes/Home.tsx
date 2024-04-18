@@ -8,6 +8,7 @@ interface Event {
   eventName: string;
   eventDesc: string;
   eventEnd: string;
+  eventStart: string;
 }
 
 export const Home = () => {
@@ -24,8 +25,15 @@ export const Home = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch today's tasks");
         }
-        const data = await response.json();
-        setTodayTasks(data);
+        const data: Event[] = await response.json();
+
+        const formattedData = data.map((task: any) => ({
+          ...task,
+          eventEnd: formatDate(task.eventEnd),
+          eventStart: formatDate(task.eventStart),
+        }));
+
+        setTodayTasks(formattedData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching today's tasks:", error);
@@ -35,6 +43,13 @@ export const Home = () => {
 
     fetchTodayTasks();
   }, [cookies.Auth_Token]);
+
+  // Function to format date and time
+  const formatDate = (dateTimeString: string) => {
+    const date = new Date(dateTimeString);
+    // Format the date and time as desired
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  };
 
   if (loading) {
     return (
@@ -57,7 +72,9 @@ export const Home = () => {
           key={task.eventID}
           eventName={task.eventName}
           eventDesc={task.eventDesc}
+          eventStart={task.eventStart}
           eventEnd={task.eventEnd}
+          eventID={task.eventID.toString()}
         />
       ))}
       <div className="container">

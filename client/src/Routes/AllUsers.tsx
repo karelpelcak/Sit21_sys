@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import UserCard from "../components/UserCard";
+import { Spinner } from "react-bootstrap";
 
 interface User {
   firstname: string;
@@ -32,19 +33,26 @@ const AllUsers = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ height: "100vh" }}
+  >
+    <Spinner />
+  </div>
   }
 
   return (
     <div className="container mt-5">
-      {users.map((user, index) => (
-        <UserCard
-          key={index}
-          username={user.username}
-          userHref={user.username}
-          email={user.email}
-        />
-      ))}
+      <div className="row">
+        {users.map((user, index) => (
+          <div key={index} className="col-md-4 mb-4">
+            <UserCard
+              username={user.firstname + " " + user.lastname}
+              userHref={user.username}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

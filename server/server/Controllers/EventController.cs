@@ -60,10 +60,9 @@ namespace server.Controllers
 
             
         }
-
-
+        
         [HttpPut("/editevent")]
-public async Task<IActionResult> EditEvent(int idOfEvent, [FromBody] EventEditEventModel eventEditEventModel)
+        public async Task<IActionResult> EditEvent(int idOfEvent, [FromBody] EventEditEventModel eventEditEventModel)
 {
     if (eventEditEventModel == null)
     {
@@ -130,9 +129,7 @@ public async Task<IActionResult> EditEvent(int idOfEvent, [FromBody] EventEditEv
         return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while updating the event.");
     }
 }
-
-
-
+        
         [HttpPut("/{eventid}/finish")]
         public async Task<IActionResult> SetFinishedEvent(int eventid)
         {
@@ -172,6 +169,7 @@ public async Task<IActionResult> EditEvent(int idOfEvent, [FromBody] EventEditEv
 
             return Ok(eventsData);
         }
+            
         [HttpGet("/events/today/{hashid}")]
         public async Task<IActionResult> EventTodayByUserId(string hashid)
         {
@@ -190,7 +188,10 @@ public async Task<IActionResult> EditEvent(int idOfEvent, [FromBody] EventEditEv
                     var @event = await _dbContext.Events.FirstOrDefaultAsync(e => e.EventID == eventId && e.EventStart.Date == DateTime.Today);
                     if (@event != null)
                     {
-                        eventlist.Add(@event);
+                        if (@event.EventFinished == false)
+                        {
+                            eventlist.Add(@event);
+                        }
                     }
                 }
         
@@ -201,9 +202,6 @@ public async Task<IActionResult> EditEvent(int idOfEvent, [FromBody] EventEditEv
                 return BadRequest("Wrong hash");
             }
         }
-
-        
-        }
-
     }
+}
 
