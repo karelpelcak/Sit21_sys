@@ -8,6 +8,7 @@ interface Event {
   eventstart: Date;
   eventend: Date;
 }
+
 interface User {
   firstname: string;
   lastname: string;
@@ -22,7 +23,7 @@ const CreateEvent = () => {
     eventstart: new Date(),
     eventend: new Date(),
   });
-  const [userList, setUserList] = useState();
+  const [userList, setUserList] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +35,7 @@ const CreateEvent = () => {
         const jsonData = await response.json();
         setUserList(
           jsonData.map((user: User) => ({
-            value: user.userId, // Check if user.id is defined here
+            value: user.userId, 
             label: `${user.firstname} ${user.lastname}`,
           }))
         );
@@ -47,6 +48,8 @@ const CreateEvent = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formData);
+
 
     if (
       !formData.eventname ||
@@ -65,7 +68,6 @@ const CreateEvent = () => {
     }
 
     const { userids, ...formDataWithoutUserIds } = formData;
-
     try {
       const queryParams = formData.userids.map((id) => `ids=${id}`).join("&");
       const url = `http://localhost:5001/createevent?${queryParams}`;
@@ -98,11 +100,23 @@ const CreateEvent = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [id]: value,
-    }));
+  
+    if (id === "eventname" || id === "eventdesc") {
+      // For eventname and eventdesc fields, set the value directly as a string
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [id]: value,
+      }));
+    } else {
+      // For other fields, parse the value as a date
+      const dateValue = new Date(value);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [id]: dateValue,
+      }));
+    }
   };
+  
 
   const handleSelectChange = (selectedOptions: any) => {
     const userIds = selectedOptions.map((option: any) => option.value);
@@ -155,6 +169,7 @@ const CreateEvent = () => {
                 className="form-control"
                 id="eventstart"
                 onChange={handleInputChange}
+                value={formData.eventstart.toISOString().slice(0, 16)}
               />
             </div>
             <div className="form-group">
@@ -164,6 +179,7 @@ const CreateEvent = () => {
                 className="form-control"
                 id="eventend"
                 onChange={handleInputChange}
+                value={formData.eventend.toISOString().slice(0, 16)}
               />
             </div>
             <input

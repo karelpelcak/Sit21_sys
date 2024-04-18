@@ -63,22 +63,74 @@ namespace server.Controllers
 
 
         [HttpPut("/editevent")]
-        public async Task<IActionResult> EditEvent(EventEditEventModel eventEditEventModel, int idOfEvent)
-        {
-            var eventsToEdit = await _dbContext.Events.Where(e => e.EventID == idOfEvent).ToListAsync();
+public async Task<IActionResult> EditEvent(int idOfEvent, [FromBody] EventEditEventModel eventEditEventModel)
+{
+    if (eventEditEventModel == null)
+    {
+        return BadRequest("Invalid event data.");
+    }
 
-            foreach (var eventToEdit in eventsToEdit)
-            {
-                eventToEdit.EventName = eventEditEventModel.EventName;
-                eventToEdit.EventDesc = eventEditEventModel.EventDesc;
-                eventToEdit.EventStart = eventEditEventModel.EventStart;
-                eventToEdit.EventEnd = eventEditEventModel.EventEnd;
-            }
-    
-            await _dbContext.SaveChangesAsync(); 
-    
-            return Ok();
+    var eventToEdit = await _dbContext.Events.FirstOrDefaultAsync(e => e.EventID == idOfEvent);
+
+    if (eventToEdit == null)
+    {
+        return NotFound("Event not found.");
+    }
+
+    if (eventToEdit.EventFinished)
+    {
+        return BadRequest("You can't change a finished event.");
+    }
+
+    if (!string.IsNullOrEmpty(eventEditEventModel.EventName))
+    {
+        eventToEdit.EventName = eventEditEventModel.EventName;
+    }
+
+    if (!string.IsNullOrEmpty(eventEditEventModel.EventDesc))
+    {
+        eventToEdit.EventDesc = eventEditEventModel.EventDesc;
+    }
+
+    if (!string.IsNullOrEmpty(eventEditEventModel.EventStart.ToString()))
+    {
+        if (DateTime.TryParse(eventEditEventModel.EventStart.ToString(), out DateTime eventStartDate))
+        {
+            eventToEdit.EventStart = eventStartDate;
         }
+        else
+        {
+            return BadRequest("Invalid event start date format.");
+        }
+    }
+
+    if (!string.IsNullOrEmpty(eventEditEventModel.EventEnd.ToString()))
+    {
+        if (DateTime.TryParse(eventEditEventModel.EventEnd.ToString(), out DateTime eventEndDate))
+        {
+            eventToEdit.EventEnd = eventEndDate;
+        }
+        else
+        {
+            return BadRequest("Invalid event end date format.");
+        }
+    }
+
+    try
+    {
+        await _dbContext.SaveChangesAsync();
+        return Ok("Event changed");
+    }
+    catch (DbUpdateConcurrencyException)
+    { 
+        return Conflict("Concurrency conflict occurred while updating the event. Please try again.");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while updating the event.");
+    }
+}
+
 
 
         [HttpPut("/{eventid}/finish")]
@@ -87,7 +139,9 @@ namespace server.Controllers
             var eventToFinish = await _dbContext.Events.FirstOrDefaultAsync(e => e.EventID == eventid);
             if (eventToFinish != null)
             {
-                return Ok(eventToFinish);
+                eventToFinish.EventFinished = true;
+                await _dbContext.SaveChangesAsync();
+                return Ok("event is finished");
             }
             else
             {
@@ -118,5 +172,38 @@ namespace server.Controllers
 
             return Ok(eventsData);
         }
+        [HttpGet("/events/today/{hashid}")]
+        public async Task<IActionResult> EventTodayByUserId(string hashid)
+        {
+            List<Event> eventlist = new List<Event>();
+    
+            var eventid = await _dbContext.HashIds.FirstOrDefaultAsync(h => h.HashedID == hashid);
+            if (eventid != null)
+            {
+                var eventUserIds = await _dbContext.EventUsers
+                    .Where(eu => eu.UserId == eventid.UserID)
+                    .Select(eu => eu.EventId)
+                    .ToListAsync();
+        
+                foreach (var eventId in eventUserIds)
+                {
+                    var @event = await _dbContext.Events.FirstOrDefaultAsync(e => e.EventID == eventId && e.EventStart.Date == DateTime.Today);
+                    if (@event != null)
+                    {
+                        eventlist.Add(@event);
+                    }
+                }
+        
+                return Ok(eventlist);
+            }
+            else
+            {
+                return BadRequest("Wrong hash");
+            }
+        }
+
+        
+        }
+
     }
-}
+
