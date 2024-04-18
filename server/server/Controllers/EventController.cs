@@ -149,9 +149,23 @@ namespace server.Controllers
         [HttpDelete("/{eventid}/delete")]
         public async Task<IActionResult> DeleteEvent(int eventid)
         {
-            var x = await _dbContext.SaveChangesAsync();
-            
-            return Ok(x);
+            try
+            {
+                var eventToDelete = await _dbContext.Events.FirstOrDefaultAsync(e => e.EventID == eventid);
+                if (eventToDelete == null)
+                {
+                    return NotFound();
+                }
+
+                _dbContext.Events.Remove(eventToDelete);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok("smazano");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Chyba při mazání události: {ex.Message}");
+            }
         }
 
         [HttpGet("/events")]

@@ -19,13 +19,29 @@ const Task: React.FC<TaskProps> = ({
   const trimmedEventDesc =
     eventDesc.length > 600 ? eventDesc.substring(0, 600) + "..." : eventDesc;
 
-  const handleDelete = () => {
-    console.log("Deleting task...");
+  const handleDelete = async () => {
+    const confirmed = window.confirm("Jste si jisti, že chcete tento úkol smazat?");
+    if (!confirmed) return;
+
+     
+    try {
+      const response = await fetch(`http://localhost:5001/${eventID}/delete`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete event");
+      }
+      window.location.reload();
+      console.log("Task successfully");
+    } catch (error) {
+      console.error("Error while deleting event:", error);
+    }
   };
 
   const handleFinish = async () => {
-    console.log(eventID);
-    console.log(typeof eventID);
+    const confirmed = window.confirm("Jste si jisti, že chcete označit tento úkol jako dokončený?");
+    if (!confirmed) return;
+    
     try {
       const response = await fetch(`http://localhost:5001/${eventID}/finish`, {
         method: "PUT",
@@ -39,6 +55,7 @@ const Task: React.FC<TaskProps> = ({
       console.error("Error marking task as finished:", error);
     }
   };
+  
 
   return (
     <>
