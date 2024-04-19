@@ -93,14 +93,24 @@ namespace server.Controllers
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
             if (user != null)
             {
-                var userData = new
+                var usersHash = await _dbContext.HashIds.FirstOrDefaultAsync(u => u.UserID == user.UserId);
+                if (user != null)
                 {
-                    user.Firstname,
-                    user.Lastname,
-                    user.Username,
-                    user.Email
-                };
-                return Ok(userData);
+                    var userData = new
+                    {
+                        user.Firstname,
+                        user.Lastname,
+                        user.Username,
+                        user.Email,
+                        usersHash.HashedID
+                    };
+                    return Ok(userData);
+                }
+                else
+                {
+                    return BadRequest("User not found");
+                }
+                
             }
             else
             {

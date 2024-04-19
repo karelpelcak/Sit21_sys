@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 const LoggedUser = () => {
   const { data } = useData();
   if (!data) return null;
+  const [cookies] = useCookies(["Auth_Token"]);
   return (
     <div>
       <InfoCard
@@ -16,7 +17,7 @@ const LoggedUser = () => {
         lastname={data.lastname}
         email={data.email}
       />
-      <TodayTask />
+      <TodayTask AuthToken={cookies.Auth_Token} Logged={true}/>
     </div>
   );
 };
@@ -26,6 +27,7 @@ interface UserData {
   firstname: string;
   lastname: string;
   email: string;
+  hashedID: string;
 }
 const NotLoggedUser = () => {
   const { username } = useParams<{ username: string }>();
@@ -71,6 +73,7 @@ const NotLoggedUser = () => {
         lastname={userData.lastname}
         email={userData.email}
       />
+      <TodayTask AuthToken={userData.hashedID} Logged={false}/>
     </div>
   );
 };
@@ -109,16 +112,19 @@ interface Event {
   eventEnd: string;
   eventStart: string;
 }
-const TodayTask = () => {
+interface propsTasks{
+  AuthToken: string;
+  Logged: boolean;
+}
+const TodayTask: React.FC<propsTasks> = ({ AuthToken, Logged }) => {
     const [todayTasks, setTodayTasks] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
-    const [cookies] = useCookies(["Auth_Token"]);
   
     useEffect(() => {
       const fetchTodayTasks = async () => {
         try {
           const response = await fetch(
-            `http://localhost:5001/events/today/${cookies.Auth_Token}`
+            `http://localhost:5001/events/today/${AuthToken}`
           );
           if (!response.ok) {
             throw new Error("Failed to fetch today's tasks");
@@ -140,12 +146,10 @@ const TodayTask = () => {
       };
   
       fetchTodayTasks();
-    }, [cookies.Auth_Token]);
+    }, [AuthToken]);
   
-    // Function to format date and time
     const formatDate = (dateTimeString: string) => {
       const date = new Date(dateTimeString);
-      // Format the date and time as desired
       return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
     };
   
@@ -177,6 +181,7 @@ const TodayTask = () => {
             eventEnd={task.eventEnd}
             eventID={task.eventID.toString()}
             eventfinished={false}
+            yourevent={Logged}
           />
         ))}
       </>

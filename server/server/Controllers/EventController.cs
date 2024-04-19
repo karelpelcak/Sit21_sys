@@ -61,74 +61,88 @@ namespace server.Controllers
             
         }
         
-        [HttpPut("/editevent")]
+        [HttpPut("/editevent/{idOfEvent}")]
         public async Task<IActionResult> EditEvent(int idOfEvent, [FromBody] EventEditEventModel eventEditEventModel)
-{
-    if (eventEditEventModel == null)
-    {
-        return BadRequest("Invalid event data.");
-    }
-
-    var eventToEdit = await _dbContext.Events.FirstOrDefaultAsync(e => e.EventID == idOfEvent);
-
-    if (eventToEdit == null)
-    {
-        return NotFound("Event not found.");
-    }
-
-    if (eventToEdit.EventFinished)
-    {
-        return BadRequest("You can't change a finished event.");
-    }
-
-    if (!string.IsNullOrEmpty(eventEditEventModel.EventName))
-    {
-        eventToEdit.EventName = eventEditEventModel.EventName;
-    }
-
-    if (!string.IsNullOrEmpty(eventEditEventModel.EventDesc))
-    {
-        eventToEdit.EventDesc = eventEditEventModel.EventDesc;
-    }
-
-    if (!string.IsNullOrEmpty(eventEditEventModel.EventStart.ToString()))
-    {
-        if (DateTime.TryParse(eventEditEventModel.EventStart.ToString(), out DateTime eventStartDate))
         {
-            eventToEdit.EventStart = eventStartDate;
-        }
-        else
-        {
-            return BadRequest("Invalid event start date format.");
-        }
-    }
+            if (eventEditEventModel == null)
+            {
+                return BadRequest("Invalid event data.");
+            }
 
-    if (!string.IsNullOrEmpty(eventEditEventModel.EventEnd.ToString()))
-    {
-        if (DateTime.TryParse(eventEditEventModel.EventEnd.ToString(), out DateTime eventEndDate))
-        {
-            eventToEdit.EventEnd = eventEndDate;
-        }
-        else
-        {
-            return BadRequest("Invalid event end date format.");
-        }
-    }
+            var eventToEdit = await _dbContext.Events.FirstOrDefaultAsync(e => e.EventID == idOfEvent);
 
-    try
-    {
-        await _dbContext.SaveChangesAsync();
-        return Ok("Event changed");
-    }
-    catch (DbUpdateConcurrencyException)
-    { 
-        return Conflict("Concurrency conflict occurred while updating the event. Please try again.");
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while updating the event.");
-    }
-}
+            if (eventToEdit == null)
+            {
+                return NotFound("Event not found.");
+            }
+
+            if (eventToEdit.EventFinished)
+            {
+                return BadRequest("You can't change a finished event.");
+            }
+
+            if (!string.IsNullOrEmpty(eventEditEventModel.EventName))
+            {
+                eventToEdit.EventName = eventEditEventModel.EventName;
+            }
+
+            if (!string.IsNullOrEmpty(eventEditEventModel.EventDesc))
+            {
+                eventToEdit.EventDesc = eventEditEventModel.EventDesc;
+            }
+
+            if (!string.IsNullOrEmpty(eventEditEventModel.EventStart.ToString()))
+            {
+                if (DateTime.TryParse(eventEditEventModel.EventStart.ToString(), out DateTime eventStartDate))
+                {
+                    eventToEdit.EventStart = eventStartDate;
+                }
+                else
+                {
+                    return BadRequest("Invalid event start date format.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(eventEditEventModel.EventEnd.ToString()))
+            {
+                if (DateTime.TryParse(eventEditEventModel.EventEnd.ToString(), out DateTime eventEndDate))
+                {
+                    eventToEdit.EventEnd = eventEndDate;
+                }
+                else
+                {
+                    return BadRequest("Invalid event end date format.");
+                }
+            }
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+                return Ok("Event changed");
+            }
+            catch (DbUpdateConcurrencyException)
+            { 
+                return Conflict("Concurrency conflict occurred while updating the event. Please try again.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while updating the event.");
+            }
+        }
+
+        [HttpGet("/event/{eventid}")]
+        public async Task<IActionResult> getEventById(int eventid)
+        {
+            var eventById = await _dbContext.Events.FirstOrDefaultAsync(e => e.EventID == eventid);
+            if (eventById != null)
+            {
+                return Ok(eventById);
+            }
+            else
+            {
+                return BadRequest("Event by event id not found");
+            }
+        }
         
         [HttpPut("/{eventid}/finish")]
         public async Task<IActionResult> SetFinishedEvent(int eventid)
@@ -166,22 +180,6 @@ namespace server.Controllers
             {
                 return StatusCode(500, $"Chyba při mazání události: {ex.Message}");
             }
-        }
-
-        [HttpGet("/events")]
-        public async Task<IActionResult> EventList()
-        {
-            var events = await _dbContext.Events.ToListAsync();
-            var eventsData = events.Select(e => new
-            {
-                e.EventID,
-                e.EventName,
-                e.EventDesc,
-                e.EventStart,
-                e.EventEnd
-            }).ToList();
-
-            return Ok(eventsData);
         }
             
         [HttpGet("/events/today/{hashid}")]

@@ -8,6 +8,7 @@ interface TaskProps {
   eventEnd: string;
   eventID: string;
   eventfinished: boolean;
+  yourevent: boolean;
 }
 
 const Task: React.FC<TaskProps> = ({
@@ -17,6 +18,7 @@ const Task: React.FC<TaskProps> = ({
   eventID,
   eventStart,
   eventfinished,
+  yourevent,
 }) => {
   const trimmedEventDesc =
     eventDesc.length > 600 ? eventDesc.substring(0, 600) + "..." : eventDesc;
@@ -63,29 +65,48 @@ const Task: React.FC<TaskProps> = ({
 
   return (
     <>
-      <Card className="rounded mb-2 shadow" style={{ width: "100%" }}>
-        <Card.Body>
-          <Card.Title>{eventName}</Card.Title>
-          <Card.Text style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-            {trimmedEventDesc}
-          </Card.Text>
-          <Card.Text>
-            {eventStart} - {eventEnd}
-          </Card.Text>
-          {eventfinished ? (
-            <div></div>
-          ) : (
-            <div className="d-flex justify-content-between">
-              <Button variant="danger" onClick={handleDelete}>
-                Delete
-              </Button>
-              <Button variant="success" onClick={handleFinish}>
-                Finish
-              </Button>
-            </div>
-          )}
-        </Card.Body>
-      </Card>
+      {eventfinished ? (
+        <Card
+          className="rounded mb-2 shadow border-success"
+          style={{ width: "100%" }}
+        >
+          <Card.Body>
+            <Card.Title>{eventName}</Card.Title>
+            <Card.Text style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+              {trimmedEventDesc}
+            </Card.Text>
+            <Card.Text>
+              {eventStart} - {eventEnd}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      ) : (
+        <Card className="rounded mb-2 shadow" style={{ width: "100%" }}>
+          <Card.Body>
+            <Card.Title>{eventName}</Card.Title>
+            <Card.Text style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+              {trimmedEventDesc}
+            </Card.Text>
+            <Card.Text>
+              {eventStart} - {eventEnd}
+            </Card.Text>
+
+            {yourevent ? (
+              <div className="d-flex justify-content-between">
+                <Button variant="danger" onClick={handleDelete}>
+                  Delete
+                </Button>
+                <a href={"editevent/" + eventID}>Upravit</a>{" "}
+                <Button variant="success" onClick={handleFinish}>
+                  Finish
+                </Button>
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </Card.Body>
+        </Card>
+      )}
     </>
   );
 };

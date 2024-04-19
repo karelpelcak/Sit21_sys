@@ -65,7 +65,7 @@ const Tasks: React.FC = () => {
       new Date(event.eventStart) >= new Date(startDateFilter);
     const endDatePass =
       endDateFilter === "" ||
-      new Date(event.eventEnd) <= new Date(endDateFilter + "T23:59:59"); // Adjusted to end of day
+      new Date(event.eventEnd) <= new Date(endDateFilter + "T23:59:59");
     const showFinishedPass = showFinished || !event.eventFinished;
     return startDatePass && endDatePass && showFinishedPass;
   });
@@ -144,6 +144,7 @@ const Tasks: React.FC = () => {
             eventEnd={event.eventEnd}
             eventID={event.eventID.toString()}
             eventfinished={event.eventFinished}
+            yourevent={true}
           />
         ))}
       </div>
