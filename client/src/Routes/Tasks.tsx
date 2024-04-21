@@ -98,13 +98,13 @@ const Tasks: React.FC = () => {
                 className="form-check-label"
                 htmlFor="showFinishedCheckbox"
               >
-                Show Finished Events
+                Zobrazit dokončené úkoly
               </label>
             </div>
           </div>
           <div className="col-auto">
             <label className="sr-only" htmlFor="startDateInput">
-              Filter by Start Date:
+            Filtrovat podle datumu začátku:
             </label>
             <input
               type="date"
@@ -116,7 +116,7 @@ const Tasks: React.FC = () => {
           </div>
           <div className="col-auto">
             <label className="sr-only" htmlFor="endDateInput">
-              Filter by End Date:
+              Filtrovat podle datumu konce:
             </label>
             <input
               type="date"

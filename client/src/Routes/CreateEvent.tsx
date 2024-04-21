@@ -83,8 +83,7 @@ const CreateEvent = () => {
       if (!response.ok) {
         throw new Error("Failed to create event.");
       }
-
-      alert("Event created successfully!");
+      
       setFormData({
         eventname: "",
         eventdesc: "",
@@ -92,6 +91,8 @@ const CreateEvent = () => {
         eventstart: new Date(),
         eventend: new Date(),
       });
+      alert("Event created successfully!");
+      
     } catch (error) {
       console.error("Error creating event:", error);
       alert("Failed to create event. Please try again.");
@@ -100,15 +101,12 @@ const CreateEvent = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-  
     if (id === "eventname" || id === "eventdesc") {
-      // For eventname and eventdesc fields, set the value directly as a string
       setFormData((prevFormData) => ({
         ...prevFormData,
         [id]: value,
       }));
     } else {
-      // For other fields, parse the value as a date
       const dateValue = new Date(value);
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -140,6 +138,7 @@ const CreateEvent = () => {
                 id="eventname"
                 placeholder="Název úkolu"
                 onChange={handleInputChange}
+                value={formData.eventname}
               />
             </div>
             <div className="form-group">
@@ -150,6 +149,7 @@ const CreateEvent = () => {
                 id="eventdesc"
                 placeholder="Popis úkolu"
                 onChange={handleInputChange}
+                value={formData.eventdesc}
               />
             </div>
             <div className="form-group">
@@ -160,6 +160,7 @@ const CreateEvent = () => {
                 options={userList}
                 placeholder="Hledej uživatele..."
                 onChange={handleSelectChange}
+                value={userList.filter((option) => formData.userids.includes(option.value))}
               />
             </div>
             <div className="form-group">
