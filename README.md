@@ -12,8 +12,8 @@ This project is a Planning System developed using React with TypeScript for the 
 
 ## Usage
 
-1. Start the backend server: `dotnet run`
-2. Start the frontend development server: `npm start`
+1. Start the backend server: `cd server/server && dotnet run`
+2. Start the frontend development server: `cd client && pnpm start`
 
 ## Contributing
 
