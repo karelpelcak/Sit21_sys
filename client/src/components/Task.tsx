@@ -37,7 +37,6 @@ const Task: React.FC<TaskProps> = ({
         throw new Error("Failed to delete event");
       }
       window.location.reload();
-      console.log("Task successfully");
     } catch (error) {
       console.error("Error while deleting event:", error);
     }
@@ -57,7 +56,6 @@ const Task: React.FC<TaskProps> = ({
         throw new Error("Failed to mark task as finished");
       }
       window.location.reload();
-      console.log("Task marked as finished successfully");
     } catch (error) {
       console.error("Error marking task as finished:", error);
     }

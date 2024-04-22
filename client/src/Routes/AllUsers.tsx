@@ -33,7 +33,6 @@ const AllUsers = () => {
     fetchData();
   }, []);
 
-  // Filtrujeme uživatele na základě zadaného hledaného termínu
   const filteredUsers = users.filter((user) =>
     `${user.firstname} ${user.lastname}`
       .toLowerCase()

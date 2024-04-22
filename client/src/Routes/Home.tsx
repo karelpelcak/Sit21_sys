@@ -44,10 +44,8 @@ export const Home = () => {
     fetchTodayTasks();
   }, [cookies.Auth_Token]);
 
-  // Function to format date and time
   const formatDate = (dateTimeString: string) => {
     const date = new Date(dateTimeString);
-    // Format the date and time as desired
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   };
 

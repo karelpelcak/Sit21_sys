@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   var currentTime = new Date();
@@ -13,6 +14,8 @@ const LoginForm = () => {
   const [responseMessage, setResponseMessage] = useState("");
   const [responsseState, setResponsseState] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -45,6 +48,7 @@ const LoginForm = () => {
             path: "/",
           });
           setLoading(false);
+          navigate("/");
         }, 500);
       } else {
         console.error("Bad response from server");

@@ -48,7 +48,6 @@ const CreateEvent = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
 
 
     if (
@@ -71,7 +70,6 @@ const CreateEvent = () => {
     try {
       const queryParams = formData.userids.map((id) => `ids=${id}`).join("&");
       const url = `http://localhost:5001/createevent?${queryParams}`;
-      console.log(url);
       const response = await fetch(url, {
         method: "POST",
         headers: {

@@ -1,7 +1,7 @@
 import { useData } from "../Checker";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
-//FIXCODE: Fix responsivity of site
+
 const Layout = () => {
   const { data } = useData();
   const [, , removeCookie] = useCookies();
@@ -54,7 +54,7 @@ const Layout = () => {
             </li>
             <li className="nav-item">
               <button className="btn btn-light" onClick={handleLogout}>
-                Logout
+                Odhlásit
               </button>
             </li>
           </ul>

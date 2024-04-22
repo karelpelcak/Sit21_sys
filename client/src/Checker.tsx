@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import App from "./App";
 import Authentication from "./Authentication";
 import { Spinner } from "react-bootstrap";
+import { BrowserRouter as Router } from 'react-router-dom';
 
 interface UserData {
   firstname: string;
@@ -51,15 +52,24 @@ const Checker = () => {
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-        <Spinner/>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        <Spinner />
       </div>
     );
   }
 
   return (
     <DataContext.Provider value={{ data }}>
-      {cookies.Auth_Token ? <App /> : <Authentication />}
+      {cookies.Auth_Token ? (
+        <App />
+      ) : (
+        <Router>
+          <Authentication />
+        </Router>
+      )}
     </DataContext.Provider>
   );
 };
