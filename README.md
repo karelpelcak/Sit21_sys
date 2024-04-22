@@ -15,10 +15,3 @@ This project is a Planning System developed using React with TypeScript for the 
 1. Start the backend server: `cd server/server && dotnet run`
 2. Start the frontend development server: `cd client && pnpm start`
 
-## Contributing
-
-Contributions are welcome! Feel free to submit pull requests or open issues for any improvements or features you'd like to see.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
