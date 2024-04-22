@@ -1,17 +1,16 @@
-# Planning System
+# Plánovací systém
 
-This project is a Planning System developed using React with TypeScript for the frontend and ASP.NET Web API for the backend.
+Tento projekt je Plánovací systém vyvinutý pomocí React s TypeScriptem pro frontend a ASP.NET Web API pro backend.
 
-## Features
+## Funkce
 
-- **React with TypeScript**: Utilizes the power of React combined with TypeScript for type safety and better development experience.
-- **ASP.NET Web API**: Provides a robust backend solution using ASP.NET Web API for handling data and business logic.
-- **User Authentication**: Secure user authentication system to ensure data privacy and access control.
-- **Data Management**: Efficiently manage planning data, including creation, retrieval, updating, and deletion.
-- **Customizable**: Easily extend and customize the system to fit specific business needs.
+- **React s TypeScriptem**: Využívá sílu Reactu spojenou s TypeScriptem pro typovou bezpečnost a lepší zkušenost s vývojem.
+- **ASP.NET Web API**: Poskytuje robustní backendové řešení pomocí ASP.NET Web API pro zpracování dat a obchodní logiky.
+- **Uživatelská autentizace**: Zajišťuje bezpečný systém autentizace uživatele pro ochranu dat a řízení přístupu.
+- **Správa dat**: Efektivně spravujte plánovací data, včetně vytváření, získávání, aktualizace a mazání.
+- **Přizpůsobitelnost**: Snadno rozšiřte a přizpůsobte systém, aby vyhovoval specifickým podnikovým potřebám.
 
-## Usage
+## Použití
 
-1. Start the backend server: `cd server/server && dotnet run`
-2. Start the frontend development server: `cd client && pnpm start`
-
+1. Spusťte backendový server: `cd server/server && dotnet run`
+2. Spusťte vývojový server frontendu: `cd client && pnpm start`
