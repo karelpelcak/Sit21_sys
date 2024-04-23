@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import UserCard from "../components/UserCard";
 import { Spinner } from "react-bootstrap";
+import { useData } from "../Checker";
 
 interface User {
   firstname: string;
@@ -10,6 +11,7 @@ interface User {
 }
 
 const AllUsers = () => {
+  const { url } = useData();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,7 +19,7 @@ const AllUsers = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5001/users");
+        const response = await fetch(url + "users");
         if (!response.ok) {
           throw new Error("Failed to fetch users");
         }

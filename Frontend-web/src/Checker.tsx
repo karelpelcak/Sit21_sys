@@ -4,6 +4,7 @@ import App from "./App";
 import Authentication from "./Authentication";
 import { Spinner } from "react-bootstrap";
 import { BrowserRouter as Router } from 'react-router-dom';
+import json_url from './secret/jsons/secret_values.json'
 
 interface UserData {
   firstname: string;
@@ -14,10 +15,12 @@ interface UserData {
 
 interface DataContextValue {
   data: UserData | null;
+  url: string | null
 }
 
 const DataContext = createContext<DataContextValue>({
   data: null,
+  url: null
 });
 
 export const useData = () => useContext(DataContext);
@@ -32,7 +35,7 @@ const Checker = () => {
       try {
         if (cookies.Auth_Token) {
           const response = await fetch(
-            "http://localhost:5001/hash/" + cookies.Auth_Token
+            json_url.backend_url + "hash/" + cookies.Auth_Token
           );
           if (!response.ok) {
             console.error("Failed to fetch data");
@@ -62,7 +65,7 @@ const Checker = () => {
   }
 
   return (
-    <DataContext.Provider value={{ data }}>
+    <DataContext.Provider value={{ data: data, url: json_url.backend_url }}>
       {cookies.Auth_Token ? (
         <App />
       ) : (

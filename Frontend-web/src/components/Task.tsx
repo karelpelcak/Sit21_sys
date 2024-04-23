@@ -1,5 +1,6 @@
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useData } from "../Checker";
 
 interface TaskProps {
   eventName: string;
@@ -20,6 +21,7 @@ const Task: React.FC<TaskProps> = ({
   eventfinished,
   yourevent,
 }) => {
+  const { url } = useData();
   const trimmedEventDesc =
     eventDesc.length > 600 ? eventDesc.substring(0, 600) + "..." : eventDesc;
 
@@ -30,7 +32,7 @@ const Task: React.FC<TaskProps> = ({
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:5001/${eventID}/delete`, {
+      const response = await fetch(url + `${eventID}/delete`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -49,7 +51,7 @@ const Task: React.FC<TaskProps> = ({
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:5001/${eventID}/finish`, {
+      const response = await fetch(url + `${eventID}/finish`, {
         method: "PUT",
       });
       if (!response.ok) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import { useData } from "../Checker";
 
 interface EventEditEventModel {
   eventName: string;
@@ -20,6 +21,7 @@ const formatDate = (dateString: string): string => {
 };
 
 const EditEventPage: React.FC = () => {
+  const { url } = useData();
   const navigate = useNavigate();
   const { eventid } = useParams<{ eventid: string }>();
   const [eventData, setEventData] = useState<EventEditEventModel>({
@@ -32,7 +34,7 @@ const EditEventPage: React.FC = () => {
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/event/${eventid}`);
+        const response = await fetch(url + `event/${eventid}`);
         if (response.ok) {
           const eventDataFromApi = await response.json();
           setEventData({
@@ -61,7 +63,7 @@ const EditEventPage: React.FC = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:5001/editevent/${eventid}`,
+        url + `editevent/${eventid}`,
         {
           method: "PUT",
           headers: {
@@ -83,7 +85,7 @@ const EditEventPage: React.FC = () => {
 
   return (
     <div className="container">
-      <h1>Edit Event</h1>
+      <h1>Upravit úkol</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="eventName">
           <Form.Label>Název</Form.Label>

@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { useData } from "../Checker";
 
 const LoginForm = () => {
+  const { url } = useData();
   var currentTime = new Date();
   var expirationTime = new Date(currentTime.getTime() + 10 * 60 * 60 * 1000);
   const [formData, setFormData] = useState({
@@ -30,7 +32,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5001/login", {
+      const response = await fetch(url + "login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

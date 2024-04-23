@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
+import { useData } from "../Checker";
 
 interface Event {
   eventname: string;
@@ -16,6 +17,8 @@ interface User {
 }
 
 const CreateEvent = () => {
+  const {url} = useData();
+  const urtstr = url?.toString()
   const [formData, setFormData] = useState<Event>({
     eventname: "",
     eventdesc: "",
@@ -28,7 +31,7 @@ const CreateEvent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5001/usersids");
+        const response = await fetch(urtstr + "usersids");
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -69,7 +72,7 @@ const CreateEvent = () => {
     const { userids, ...formDataWithoutUserIds } = formData;
     try {
       const queryParams = formData.userids.map((id) => `ids=${id}`).join("&");
-      const url = `http://localhost:5001/createevent?${queryParams}`;
+      const url = urtstr +"createevent?" + queryParams;
       const response = await fetch(url, {
         method: "POST",
         headers: {

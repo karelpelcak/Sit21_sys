@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 
 const LoggedUser = () => {
   const { data } = useData();
+  console.log(data);
   if (!data) return null;
   const [cookies] = useCookies(["Auth_Token"]);
   return (
@@ -30,6 +31,7 @@ interface UserData {
   hashedID: string;
 }
 const NotLoggedUser = () => {
+  const { url } = useData();
   const { username } = useParams<{ username: string }>();
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -38,7 +40,7 @@ const NotLoggedUser = () => {
     const fetchUserData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:5001/user/${username}`);
+        const response = await fetch(url + `user/${username}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
@@ -117,6 +119,7 @@ interface propsTasks{
   Logged: boolean;
 }
 const TodayTask: React.FC<propsTasks> = ({ AuthToken, Logged }) => {
+  const { url } = useData();
     const [todayTasks, setTodayTasks] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
   
@@ -124,7 +127,7 @@ const TodayTask: React.FC<propsTasks> = ({ AuthToken, Logged }) => {
       const fetchTodayTasks = async () => {
         try {
           const response = await fetch(
-            `http://localhost:5001/events/today/${AuthToken}`
+            url + `events/today/${AuthToken}`
           );
           if (!response.ok) {
             throw new Error("Failed to fetch today's tasks");

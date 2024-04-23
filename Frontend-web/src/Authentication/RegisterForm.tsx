@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
+import { useData } from "../Checker";
 
 interface RegisterFormProps {
   setLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const RegisterForm = ({ setLogin }: RegisterFormProps) => {
+  const { url } = useData();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -47,7 +49,7 @@ const RegisterForm = ({ setLogin }: RegisterFormProps) => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5001/register", {
+      const response = await fetch(url + "register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

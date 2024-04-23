@@ -1,19 +1,25 @@
-import { useData } from "../Checker";
-import { Link } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { Link, useLocation } from 'react-router-dom';
+import { useData } from '../Checker';
+import { useCookies } from 'react-cookie';
 
 const Layout = () => {
   const { data } = useData();
   const [, , removeCookie] = useCookies();
-  const handleLogout = async () =>{
-    await removeCookie("Auth_Token");
-  }
+  const location = useLocation();
+
+  const handleLogout = async () => {
+    await removeCookie('Auth_Token');
+  };
+
+  const isActive = (pathname: any) => {
+    return location.pathname === pathname;
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-5">
-      <a className="navbar-brand" href="/">
+      <Link className="navbar-brand" to="/">
         WorkFlow
-      </a>
+      </Link>
       <button
         className="navbar-toggler"
         type="button"
@@ -28,19 +34,19 @@ const Layout = () => {
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="/tasks">
+            <Link className={`nav-link ${isActive('/tasks') ? 'active' : ''}`} to="/tasks">
               Úkoly
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/users">
+            <Link className={`nav-link ${isActive('/users') ? 'active' : ''}`} to="/users">
               uživatele
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/createevent">
+            <Link className={`nav-link ${isActive('/createevent') ? 'active' : ''}`} to="/createevent">
               Nový úkol
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
