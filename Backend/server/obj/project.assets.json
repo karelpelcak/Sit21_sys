@@ -11753,11 +11753,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/Server.csproj",
-      "projectName": "server",
-      "projectPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/Server.csproj",
+      "projectUniqueName": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/Server.csproj",
+      "projectName": "Server",
+      "projectPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/Server.csproj",
       "packagesPath": "/Users/karelpelcak/.nuget/packages/",
-      "outputPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/obj/",
+      "outputPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/karelpelcak/.nuget/NuGet/NuGet.Config"

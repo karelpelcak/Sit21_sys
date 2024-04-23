@@ -12,7 +12,7 @@ const Layout = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-5">
       <a className="navbar-brand" href="/">
-        TCServis
+        WorkFlow
       </a>
       <button
         className="navbar-toggler"
