@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xP3FBJeS//6N0UCCtFKuQjBrb7MJfiI6l1eK1UvMw69xz2H1nCX8OW807/4rW1FMS8HPTmkuhIT6525YczKh7g==",
+  "dgSpecHash": "y153gYwIREhjU9prFxWgPOgoaGSl4rnrDNmEYnEv7eJwObfFJWhp/nfKPGKCMkQC8pJ7ttBfiZincmFDBP7ndw==",
   "success": true,
-  "projectFilePath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/Server.csproj",
+  "projectFilePath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/server.csproj",
   "expectedPackageFiles": [
     "/Users/karelpelcak/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/Users/karelpelcak/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",

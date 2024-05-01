@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Task from "../components/Task";
 import { useCookies } from "react-cookie";
 import { Spinner } from "react-bootstrap";
+import { useData } from "../Checker";
 
 interface Event {
   eventID: number;
@@ -13,6 +14,7 @@ interface Event {
 }
 
 const Tasks: React.FC = () => {
+  const { url } = useData();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [showFinished, setShowFinished] = useState(false);
@@ -27,7 +29,7 @@ const Tasks: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5001/events/" + cookies.Auth_Token
+        url + "events/" + cookies.Auth_Token
       );
       if (!response.ok) {
         throw new Error("Failed to fetch events");

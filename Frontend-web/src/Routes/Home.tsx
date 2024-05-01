@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Task from "../components/Task";
 import { Spinner } from "react-bootstrap";
+import { useData } from "../Checker";
 
 interface Event {
   eventID: number;
@@ -12,6 +13,7 @@ interface Event {
 }
 
 export const Home = () => {
+  const { url } = useData();
   const [todayTasks, setTodayTasks] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [cookies] = useCookies(["Auth_Token"]);
@@ -20,7 +22,7 @@ export const Home = () => {
     const fetchTodayTasks = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5001/events/today/${cookies.Auth_Token}`
+          url + `events/today/${cookies.Auth_Token}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch today's tasks");

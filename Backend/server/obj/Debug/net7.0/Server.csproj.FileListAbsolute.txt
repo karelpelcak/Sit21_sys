@@ -763,7 +763,6 @@
 /Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/obj/Debug/net7.0/server.genruntimeconfig.cache
 /Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/obj/Debug/net7.0/ref/server.dll
 /Users/karelpelcak/Documents/Programming/Sit21_sys/server/server/bin/Debug/net7.0/appsettings.json
-/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/bin/Debug/net7.0/appsettings.json
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/bin/Debug/net7.0/Server
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/bin/Debug/net7.0/Server.deps.json
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/bin/Debug/net7.0/Server.runtimeconfig.json

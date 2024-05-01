@@ -28,6 +28,7 @@ const LoginForm = () => {
   };
 
   const handleSubmit = async (e: any) => {
+    console.log(url);
     setLoading(true);
     e.preventDefault();
 
