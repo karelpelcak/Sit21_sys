@@ -8,7 +8,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/Server.csproj",
-        "projectName": "server",
+        "projectName": "Server",
         "projectPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/Server.csproj",
         "packagesPath": "/Users/karelpelcak/.nuget/packages/",
         "outputPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/",

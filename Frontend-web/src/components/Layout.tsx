@@ -11,7 +11,7 @@ const Layout = () => {
     await removeCookie('Auth_Token');
   };
 
-  const isActive = (pathname: any) => {
+  const isActive = (pathname: string) => {
     return location.pathname === pathname;
   };
 

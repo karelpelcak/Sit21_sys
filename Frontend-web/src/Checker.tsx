@@ -5,6 +5,7 @@ import Authentication from "./Authentication";
 import { Spinner } from "react-bootstrap";
 import { BrowserRouter as Router } from 'react-router-dom';
 import json_url from './secret/jsons/secret_values.json'
+import "./index.css"
 
 interface UserData {
   firstname: string;

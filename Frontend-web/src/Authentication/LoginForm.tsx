@@ -28,7 +28,6 @@ const LoginForm = () => {
   };
 
   const handleSubmit = async (e: any) => {
-    console.log(url);
     setLoading(true);
     e.preventDefault();
 
@@ -70,7 +69,6 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit} className="form-inline">
         <div className="form-group d-flex flex-column mt-5">
           <div>
-            <label htmlFor="Name">Uživatelské jméno</label>
             <br />
             <input
               className="form-control"
@@ -81,7 +79,6 @@ const LoginForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="Password">Heslo</label>
             <br />
             <input
               className="form-control"
