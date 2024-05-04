@@ -69,14 +69,16 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit} className="form-inline">
         <div className="form-group d-flex flex-column mt-5">
           <div>
-            <label htmlFor="Name">Uživatelské jméno</label>
+            <label htmlFor="username">Uživatelské jméno</label>
             <br />
             <input
               className="form-control"
               type="text"
               name="username"
+              id="username"
               value={formData.username}
               onChange={handleInputChange}
+              autoComplete="on"
             />
           </div>
           <div>
@@ -85,7 +87,8 @@ const LoginForm = () => {
             <input
               className="form-control"
               type="password"
-              name="password"
+              name="Password"
+              id="Password"
               value={formData.password}
               onChange={handleInputChange}
             />
