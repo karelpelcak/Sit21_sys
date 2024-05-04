@@ -82,13 +82,13 @@ const LoginForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="Password">Heslo</label>
+            <label htmlFor="password">Heslo</label>
             <br />
             <input
               className="form-control"
               type="password"
-              name="Password"
-              id="Password"
+              name="password"
+              id="password"
               value={formData.password}
               onChange={handleInputChange}
             />
