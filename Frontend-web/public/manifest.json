@@ -9,12 +9,12 @@
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "public/Images/Logo.ico",
+      "src": "./Images/Logo.ico",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "public/Images/Logo.ico",
+      "src": "./Images/Logo.ico",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
