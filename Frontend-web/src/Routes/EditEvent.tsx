@@ -52,7 +52,7 @@ const EditEventPage: React.FC = () => {
     };
 
     fetchEventData();
-  }, [eventid]);
+  }, [eventid, url]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

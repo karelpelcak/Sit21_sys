@@ -1,6 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useData } from '../Checker';
 import { useCookies } from 'react-cookie';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 
 const Layout = () => {
   const { data } = useData();
@@ -16,57 +20,37 @@ const Layout = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-5">
-      <Link className="navbar-brand" to="/">
-        WorkFlow
-      </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link className={`nav-link ${isActive('/tasks') ? 'active' : ''}`} to="/tasks">
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Container>
+        <Navbar.Brand as={Link} to="/">
+          WorkFlow
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarNav" />
+        <Navbar.Collapse id="navbarNav">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/tasks" className={isActive('/tasks') ? 'active' : ''}>
               Úkoly
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className={`nav-link ${isActive('/users') ? 'active' : ''}`} to="/users">
-              uživatele
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className={`nav-link ${isActive('/createevent') ? 'active' : ''}`} to="/createevent">
+            </Nav.Link>
+            <Nav.Link as={Link} to="/users" className={isActive('/users') ? 'active' : ''}>
+              Uživatelé
+            </Nav.Link>
+            <Nav.Link as={Link} to="/createevent" className={isActive('/createevent') ? 'active' : ''}>
               Nový úkol
-            </Link>
-          </li>
-        </ul>
-      </div>
-      {data && (
-        <div className="navbar ml-auto">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link text-light" to={`/user/${data.username}`}>
-                {data.firstname} {data.lastname}
-              </Link>
-            </li>
-            <li className="nav-item">
-              <button className="btn btn-light" onClick={handleLogout}>
-                Odhlásit
-              </button>
-            </li>
-          </ul>
-        </div>
-      )}
-    </nav>
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+        {data && (
+          <Nav>
+            <Nav.Link as={Link} to={`/user/${data.username}`} className="text-light">
+              {data.firstname} {data.lastname}
+            </Nav.Link>
+            <Button variant="light" onClick={handleLogout}>
+              Odhlásit
+            </Button>
+          </Nav>
+        )}
+      </Container>
+    </Navbar>
   );
 };
 

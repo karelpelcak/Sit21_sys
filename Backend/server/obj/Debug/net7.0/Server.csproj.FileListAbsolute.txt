@@ -1017,3 +1017,4 @@
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/Server.pdb
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/Server.genruntimeconfig.cache
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/ref/Server.dll
+/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/bin/Debug/net7.0/appsettings.json

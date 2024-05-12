@@ -23,25 +23,27 @@ const Tasks: React.FC = () => {
   const [cookies] = useCookies(["Auth_Token"]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        url + "events/" + cookies.Auth_Token
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch events");
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          url + "events/" + cookies.Auth_Token
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch events");
+        }
+        const data: Event[] = await response.json();
+        setEvents(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+        setLoading(false);
       }
-      const data: Event[] = await response.json();
-      setEvents(data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching events:", error);
-      setLoading(false);
-    }
-  };
+    };
+
+    fetchData();
+  }, [cookies.Auth_Token, url]);
+
+  
 
   const handleCheckboxChange = () => {
     setShowFinished(!showFinished);

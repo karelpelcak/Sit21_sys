@@ -24,10 +24,11 @@ const DataContext = createContext<DataContextValue>({
   url: null
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useData = () => useContext(DataContext);
 
 const Checker = () => {
-  const [cookies] = useCookies(["Auth_Token"]);
+  const [cookies, ,removeCookie] = useCookies(["Auth_Token"]);
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<UserData | null>(null);
 
@@ -39,20 +40,22 @@ const Checker = () => {
             json_url.backend_url + "hash/" + cookies.Auth_Token
           );
           if (!response.ok) {
-            console.error("Failed to fetch data");
+            await removeCookie('Auth_Token');
+            //console.error("Failed to fetch data");
           }
           const result = await response.json();
           setData(result);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        await removeCookie('Auth_Token');
+        //console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [cookies.Auth_Token]);
+  }, [cookies.Auth_Token, removeCookie]);
 
   if (loading) {
     return (
@@ -79,3 +82,4 @@ const Checker = () => {
 };
 
 export default Checker;
+

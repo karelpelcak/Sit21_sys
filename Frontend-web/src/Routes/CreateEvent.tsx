@@ -17,8 +17,8 @@ interface User {
 }
 
 const CreateEvent = () => {
-  const {url} = useData();
-  const urtstr = url?.toString()
+  const { url } = useData();
+  const urtstr = url?.toString();
   const [formData, setFormData] = useState<Event>({
     eventname: "",
     eventdesc: "",
@@ -38,7 +38,7 @@ const CreateEvent = () => {
         const jsonData = await response.json();
         setUserList(
           jsonData.map((user: User) => ({
-            value: user.userId, 
+            value: user.userId,
             label: `${user.firstname} ${user.lastname}`,
           }))
         );
@@ -51,7 +51,6 @@ const CreateEvent = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
 
     if (
       !formData.eventname ||
@@ -72,7 +71,7 @@ const CreateEvent = () => {
     const { userids, ...formDataWithoutUserIds } = formData;
     try {
       const queryParams = formData.userids.map((id) => `ids=${id}`).join("&");
-      const url = urtstr +"createevent?" + queryParams;
+      const url = urtstr + "createevent?" + queryParams;
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -84,7 +83,7 @@ const CreateEvent = () => {
       if (!response.ok) {
         throw new Error("Failed to create event.");
       }
-      
+
       setFormData({
         eventname: "",
         eventdesc: "",
@@ -93,7 +92,6 @@ const CreateEvent = () => {
         eventend: new Date(),
       });
       alert("Event created successfully!");
-      
     } catch (error) {
       console.error("Error creating event:", error);
       alert("Failed to create event. Please try again.");
@@ -115,7 +113,6 @@ const CreateEvent = () => {
       }));
     }
   };
-  
 
   const handleSelectChange = (selectedOptions: any) => {
     const userIds = selectedOptions.map((option: any) => option.value);
@@ -161,7 +158,9 @@ const CreateEvent = () => {
                 options={userList}
                 placeholder="Hledej uživatele..."
                 onChange={handleSelectChange}
-                value={userList.filter((option) => formData.userids.includes(option.value))}
+                value={userList.filter((option) =>
+                  formData.userids.includes(option.value)
+                )}
               />
             </div>
             <div className="form-group">

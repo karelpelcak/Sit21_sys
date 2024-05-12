@@ -29,7 +29,7 @@ export const Home = () => {
         }
         const data: Event[] = await response.json();
 
-        const formattedData = data.map((task: any) => ({
+        const formattedData = data.map((task: Event) => ({
           ...task,
           eventEnd: formatDate(task.eventEnd),
           eventStart: formatDate(task.eventStart),
@@ -44,7 +44,7 @@ export const Home = () => {
     };
 
     fetchTodayTasks();
-  }, [cookies.Auth_Token]);
+  }, [url, cookies.Auth_Token]);
 
   const formatDate = (dateTimeString: string) => {
     const date = new Date(dateTimeString);
@@ -81,7 +81,7 @@ export const Home = () => {
       ))}
       <div className="container">
         <div className="row justify-content-end">
-          <div className="col-2 text-center">
+          <div className="col-5 text-center">
             <a href="/tasks" className="btn btn-primary">
               Všechny Úkoly
             </a>

@@ -8,8 +8,8 @@ import { useCookies } from "react-cookie";
 const LoggedUser = () => {
   const { data } = useData();
   console.log(data);
-  if (!data) return null;
   const [cookies] = useCookies(["Auth_Token"]);
+  if (!data) return null;
   return (
     <div>
       <InfoCard
@@ -54,7 +54,7 @@ const NotLoggedUser = () => {
     };
 
     fetchUserData();
-  }, [username]);
+  }, [url, username]);
 
   if (loading || userData == null) {
     return (
@@ -134,7 +134,7 @@ const TodayTask: React.FC<propsTasks> = ({ AuthToken, Logged }) => {
           }
           const data = await response.json();
   
-          const formattedData = data.map((task: any) => ({
+          const formattedData = data.map((task: Event) => ({
             ...task,
             eventEnd: formatDate(task.eventEnd),
             eventStart: formatDate(task.eventStart),
@@ -149,7 +149,7 @@ const TodayTask: React.FC<propsTasks> = ({ AuthToken, Logged }) => {
       };
   
       fetchTodayTasks();
-    }, [AuthToken]);
+    }, [AuthToken, url]);
   
     const formatDate = (dateTimeString: string) => {
       const date = new Date(dateTimeString);
@@ -194,7 +194,7 @@ const TodayTask: React.FC<propsTasks> = ({ AuthToken, Logged }) => {
 
 const UserPage = () => {
   const { data } = useData();
-  let { username } = useParams();
+  const { username } = useParams();
 
   const isLoggedUser = () => {
     return username === data?.username;

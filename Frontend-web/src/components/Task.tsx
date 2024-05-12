@@ -25,6 +25,21 @@ const Task: React.FC<TaskProps> = ({
   const trimmedEventDesc =
     eventDesc.length > 600 ? eventDesc.substring(0, 600) + "..." : eventDesc;
 
+  // Funkce pro formátování data
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}/${date
+      .getDate()
+      .toString()
+      .padStart(2, "0")}:${date
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+    return formattedDate;
+  };
+
   const handleDelete = async () => {
     const confirmed = window.confirm(
       "Jste si jisti, že chcete tento úkol smazat?"
@@ -76,7 +91,7 @@ const Task: React.FC<TaskProps> = ({
               {trimmedEventDesc}
             </Card.Text>
             <Card.Text>
-              {eventStart} - {eventEnd}
+              {formatDate(eventStart)} - {formatDate(eventEnd)}
             </Card.Text>
           </Card.Body>
         </Card>
@@ -88,17 +103,17 @@ const Task: React.FC<TaskProps> = ({
               {trimmedEventDesc}
             </Card.Text>
             <Card.Text>
-              {eventStart} - {eventEnd}
+              {formatDate(eventStart)} - {formatDate(eventEnd)}
             </Card.Text>
 
             {yourevent ? (
               <div className="d-flex justify-content-between">
                 <Button variant="danger" onClick={handleDelete}>
-                  Delete
+                  Smazat
                 </Button>
                 <a href={"editevent/" + eventID}>Upravit</a>{" "}
                 <Button variant="success" onClick={handleFinish}>
-                  Finish
+                  dokončit
                 </Button>
               </div>
             ) : (

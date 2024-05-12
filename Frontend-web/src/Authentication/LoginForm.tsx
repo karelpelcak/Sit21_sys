@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -6,8 +6,8 @@ import { useData } from "../Checker";
 
 const LoginForm = () => {
   const { url } = useData();
-  var currentTime = new Date();
-  var expirationTime = new Date(currentTime.getTime() + 10 * 60 * 60 * 1000);
+  const currentTime = new Date();
+  const expirationTime = new Date(currentTime.getTime() + 10 * 60 * 60 * 1000);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -19,7 +19,7 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -27,7 +27,7 @@ const LoginForm = () => {
     }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e:  FormEvent<HTMLFormElement>) => {
     setLoading(true);
     e.preventDefault();
 
