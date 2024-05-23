@@ -37,7 +37,7 @@ namespace server.Controllers
         
         [HttpPost("/register")]
         public async Task<IActionResult> Register(RegisterModel registerModel)
-        {
+        {   
             var email = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == registerModel.Email);
             if (email == null)
             {
