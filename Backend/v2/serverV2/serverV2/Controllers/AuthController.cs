@@ -13,13 +13,15 @@ namespace serverV2.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
+        public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _configuration = configuration;
         }
 
@@ -59,22 +61,30 @@ namespace serverV2.Controllers
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginModel.Password, false);
             if (result.Succeeded)
             {
-                var token = GenerateJwtToken(user);
+                var token = await GenerateJwtToken(user);
                 return Ok(new { Token = token });
             }
             return BadRequest("Invalid password");
         }
 
-        private string GenerateJwtToken(IdentityUser user)
+        private async Task<string> GenerateJwtToken(IdentityUser user)
         {
+            var userRoles = await _userManager.GetRolesAsync(user);
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.UserName)
             };
 
-            var roles = _userManager.GetRolesAsync(user).Result;
-            foreach (var role in roles)
+            foreach (var role in userRoles)
             {
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine(role);
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 

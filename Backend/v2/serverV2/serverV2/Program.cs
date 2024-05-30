@@ -31,7 +31,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequiredLength = 8; 
+    options.Password.RequiredLength = 8;
+    options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ";
 })
 .AddEntityFrameworkStores<DatabaseContext>()
 .AddDefaultTokenProviders();
