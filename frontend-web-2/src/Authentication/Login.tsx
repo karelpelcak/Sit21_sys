@@ -56,9 +56,9 @@ const Login = () => {
   };
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-r from-cyan-500 to-blue-500 flex justify-center items-center content-center">
+    <div className="w-screen h-screen bg-gray-100 flex justify-center items-center content-center">
       <form onSubmit={handleSubmit}>
-        <div className={`${isMobile ? "" : "bg-white p-20 rounded-lg"} `}>
+        <div className={`${isMobile ? "" : "bg-white p-20 rounded-lg drop-shadow-md"} `}>
           {loading ? (
             <Spinner />
           ) : (

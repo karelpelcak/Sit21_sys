@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
@@ -26,12 +27,18 @@ namespace serverV2.Controllers
         }
 
         [HttpPost("register")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
             var userExists = await _userManager.FindByEmailAsync(registerModel.Email);
             if (userExists != null)
             {
                 return Conflict("Email address already used");
+            }
+
+            if (!await _roleManager.RoleExistsAsync(registerModel.UserRole))
+            {
+                return BadRequest("Specified role does not exist");
             }
 
             var newUser = new IdentityUser
@@ -42,7 +49,7 @@ namespace serverV2.Controllers
             var result = await _userManager.CreateAsync(newUser, registerModel.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(newUser, "User");
+                await _userManager.AddToRoleAsync(newUser, registerModel.UserRole);
 
                 return Ok(new { Message = "User registered successfully" });
             }
@@ -79,12 +86,6 @@ namespace serverV2.Controllers
 
             foreach (var role in userRoles)
             {
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine(role);
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine();
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
@@ -108,17 +109,27 @@ namespace serverV2.Controllers
     {
         [Required]
         public string Username { get; set; }
+
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
+
         [Required]
+        [MinLength(8)]
         public string Password { get; set; }
+
+        [Required]
+        public string UserRole { get; set; }
     }
 
     public class LoginModel
     {
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
+
         [Required]
+        [MinLength(8)]
         public string Password { get; set; }
     }
 }
