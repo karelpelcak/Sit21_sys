@@ -1011,10 +1011,11 @@
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/staticwebassets.build.json
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/staticwebassets.development.json
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/scopedcss/bundle/Server.styles.css
-/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/Server.csproj.CopyComplete
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/Server.dll
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/refint/Server.dll
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/Server.pdb
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/Server.genruntimeconfig.cache
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/ref/Server.dll
 /Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/bin/Debug/net7.0/appsettings.json
+/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/Server.sourcelink.json
+/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/server/obj/Debug/net7.0/Server.csproj.Up2Date

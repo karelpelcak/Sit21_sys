@@ -12,7 +12,7 @@ using serverV2.Data;
 namespace serverV2.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240523181035_init")]
+    [Migration("20240604110504_init")]
     partial class init
     {
         /// <inheritdoc />

@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using serverV2.Data;
-using serverV2.Models;
 
 namespace serverV2.Controllers
 {
@@ -14,13 +12,6 @@ namespace serverV2.Controllers
         public TaskController(DatabaseContext context)
         {
             _context = context;
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> CreateEvent(TaskCreateTaskModel model, int[] Ids)
-        {
-            return Ok();
         }
     }
 }

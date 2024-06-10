@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -63,6 +63,34 @@ const LoginForm = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    async function callSecureEndpoint() {
+      console.log('test');
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImthcmVscGVsY2FrIiwibmJmIjoxNzE1NjI3NDQ4LCJleHAiOjE3MTU2MzEwNDgsImlhdCI6MTcxNTYyNzQ0OH0.sB9HAGLAWyvAT2H2M7foBDq7l2Mo19Z1oTPfwsmAQvE';
+      console.log('test1');
+      try {
+        const response = await fetch('http://localhost:5133/api/Auth/secure', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log('test2');
+        console.log(response);
+    
+        if (!response.ok) {
+          throw new Error('Failed to fetch secure endpoint');
+        }
+    
+        const data = await response.json();
+        console.log('Response from secure endpoint:', data);
+      } catch (error) {
+        console.error('Error while calling secure endpoint:', error);
+      }
+    }
+    callSecureEndpoint();
+  }, [])
 
   return (
     <div className="d-flex justify-content-center mt-5">

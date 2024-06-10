@@ -4444,27 +4444,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Karel Pelcak\\.nuget\\packages\\": {}
+    "/Users/karelpelcak/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Karel Pelcak\\Desktop\\Programming\\Sit21_sys\\Backend\\v2\\serverV2\\serverV2\\serverV2.csproj",
+      "projectUniqueName": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/v2/serverV2/serverV2/serverV2.csproj",
       "projectName": "serverV2",
-      "projectPath": "C:\\Users\\Karel Pelcak\\Desktop\\Programming\\Sit21_sys\\Backend\\v2\\serverV2\\serverV2\\serverV2.csproj",
-      "packagesPath": "C:\\Users\\Karel Pelcak\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Karel Pelcak\\Desktop\\Programming\\Sit21_sys\\Backend\\v2\\serverV2\\serverV2\\obj\\",
+      "projectPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/v2/serverV2/serverV2/serverV2.csproj",
+      "packagesPath": "/Users/karelpelcak/.nuget/packages/",
+      "outputPath": "/Users/karelpelcak/Documents/Programming/Sit21_sys/Backend/v2/serverV2/serverV2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Karel Pelcak\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/karelpelcak/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4538,7 +4535,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -4547,7 +4544,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Balíček BCrypt.Net 0.1.0 se místo cílové architektury projektu net8.0 obnovil pomocí .NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1. Balíček nemusí být plně kompatibilní s vaším projektem.",
+      "message": "Package 'BCrypt.Net 0.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
       "libraryId": "BCrypt.Net",
       "targetGraphs": [
         "net8.0"
